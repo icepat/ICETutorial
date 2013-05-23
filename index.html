@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="ICEtutorial : A nice tutorial like the one introduced in the Path 3.X App" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>ICEtutorial</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/icepat/ICETutorial">View on GitHub</a>
+
+          <h1 id="project_title">ICEtutorial</h1>
+          <h2 id="project_tagline">A nice tutorial like the one introduced in the Path 3.X App</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/icepat/ICETutorial/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/icepat/ICETutorial/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>Welcome to ICETutorial.</h3>
+
+<p>This small project is an implementation of the newly tutorial introduced by the Path 3.X app.
+Very simple and efficient tutorial, composed with N full-screen pictures that you can swipe for switching to the next/previous page.</p>
+
+<p>Here are the features :</p>
+
+<ul>
+<li>Compose your own tutorial with N pictures</li>
+<li>Fixed incrusted title (can be easily replaced by an UIImageView, or just removed)</li>
+<li>Scrolling sub-titles for page, with associated descriptions (change the texts, font, color...)</li>
+<li>Auto-scrolling (enable/disable, loop, setup duration)</li>
+<li>Cross fade between next/previous background</li>
+</ul><p><img src="https://github.com/icepat/ICETutorial/blob/master/screen_shot.jpg?raw=true" alt="ICETutorial"></p>
+
+<h3>Setting-up the ICETutorial</h3>
+
+<p>The code is commented, and I guess, easy to read/understand/modify.
+All the available settings for the scrolling are located in the header : ICETutorial.h :</p>
+
+<p>Texts and pictures :</p>
+
+<pre><code>    // Init the pages texts, and pictures.
+    ICETutorialPage *layer1 = [[ICETutorialPage alloc] initWithSubTitle:@"Picture 1"
+                                                            description:@"Champs-Elysées by night"
+                                                            pictureName:@"tutorial_background_00@2x.jpg"];
+    ICETutorialPage *layer2 = [[ICETutorialPage alloc] initWithSubTitle:@"Picture 2"
+                                                            description:@"The Eiffel Tower with\n cloudy weather"
+                                                       pictureName:@"tutorial_background_01@2x.jpg"];
+    [...] 
+</code></pre>
+
+<p>Common styles for SubTitles and Descriptions :</p>
+
+<pre><code>    // Set the common style for SubTitles and Description (can be overrided on each page).
+    ICETutorialLabelStyle *subStyle = [[ICETutorialLabelStyle alloc] init];
+    [subStyle setFont:TUTORIAL_SUB_TITLE_FONT];
+    [subStyle setTextColor:TUTORIAL_LABEL_TEXT_COLOR];
+    [subStyle setLinesNumber:TUTORIAL_SUB_TITLE_LINES_NUMBER];
+    [subStyle setOffset:TUTORIAL_SUB_TITLE_OFFSET];
+
+    ICETutorialLabelStyle *descStyle = [[ICETutorialLabelStyle alloc] init];
+    [descStyle setFont:TUTORIAL_DESC_FONT];
+    [descStyle setTextColor:TUTORIAL_LABEL_TEXT_COLOR];
+    [subStyle setLinesNumber:TUTORIAL_DESC_LINES_NUMBER];
+    [descStyle setOffset:TUTORIAL_DESC_OFFSET];
+
+    // Load into an array.
+    NSArray *tutorialLayers = @[layer1,layer2,layer3,layer4,layer5];
+
+</code></pre>
+
+<p>Init and load :</p>
+
+<pre><code>        self.viewController = [[ICETutorialController alloc] initWithNibName:@"ICETutorialController_iPhone"
+                                                                      bundle:nil
+                                                                    andPages:tutorialLayers];
+
+    // Set the common styles, and start scrolling (auto scroll, and looping enabled by default)
+    [self.viewController setCommonPageSubTitleStyle:subStyle];
+    [self.viewController setCommonPageDescriptionStyle:descStyle];
+    [self.viewController startScrolling];
+</code></pre>
+
+<p>The title is located in the ICETutorial.m :</p>
+
+<pre><code>// Setup the Title Label.
+- (void)setOverlayTitle{
+    // ...or change by an UIImageView if you need it.
+    [overlayTitle_ setText:@"Welcome"];
+}
+</code></pre>
+
+<p>Checkout the others projects available on my account <a href="https://github.com/Icepat" class="user-mention">@Icepat</a>.</p>
+
+<p>Questions or ideas : <a href="mailto:patrick.trillsam@gmail.com">patrick.trillsam@gmail.com</a>.</p>
+
+<h3>License :</h3>
+
+<p>The MIT License</p>
+
+<p>Copyright (c) 2013 Patrick Trillsam - ICETutorial</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">ICEtutorial maintained by <a href="https://github.com/icepat">icepat</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
