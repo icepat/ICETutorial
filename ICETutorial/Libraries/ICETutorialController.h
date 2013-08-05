@@ -1,6 +1,6 @@
 //
 //  ICETutorialController.h
-//  tutorial
+//
 //
 //  Created by Patrick Trillsam on 25/03/13.
 //  Copyright (c) 2013 Patrick Trillsam. All rights reserved.
@@ -27,18 +27,17 @@ typedef enum {
 }ScrollingState;
 
 @interface ICETutorialController : UIViewController <UIScrollViewDelegate> {
-    __weak IBOutlet UIImageView *backLayerView_;
-    __weak IBOutlet UIImageView *frontLayerView_;
-    __weak IBOutlet UILabel *overlayTitle_;
-    __weak IBOutlet UIScrollView *scrollView_;
-    __weak IBOutlet UIPageControl *pageControl_;
+    __weak IBOutlet UIImageView *_backLayerView;
+    __weak IBOutlet UIImageView *_frontLayerView;
+    __weak IBOutlet UILabel *_overlayTitle;
+    __weak IBOutlet UIScrollView *_scrollView;
+    __weak IBOutlet UIPageControl *_pageControl;
     
-    CGSize windowSize_;
-    ScrollingState currentState_;
-    ScrollingState previousState_;
+    CGSize _windowSize;
+    ScrollingState _currentState;
     
     NSArray *_pages;
-    int currentPageIndex_;
+    int _currentPageIndex;
     
     BOOL _autoScrollEnabled;
     BOOL _autoScrollLooping;
@@ -68,6 +67,5 @@ typedef enum {
 // Actions.
 - (IBAction)didClickOnButton1:(id)sender;
 - (IBAction)didClickOnButton2:(id)sender;
-
 
 @end

@@ -1,6 +1,6 @@
 //
 //  ICETutorialController.m
-//  tutorial
+//
 //
 //  Created by Patrick Trillsam on 25/03/13.
 //  Copyright (c) 2013 Patrick Trillsam. All rights reserved.
@@ -45,16 +45,16 @@
 {
     [super viewDidLoad];
     
-    windowSize_ = [[UIScreen mainScreen] bounds].size;
+    _windowSize = [[UIScreen mainScreen] bounds].size;
     
     // ScrollView configuration.
-    [scrollView_ setContentSize:CGSizeMake([self numberOfPages] * windowSize_.width,
-                                           scrollView_.contentSize.height)];
-    [scrollView_ setPagingEnabled:YES];
+    [_scrollView setContentSize:CGSizeMake([self numberOfPages] * _windowSize.width,
+                                           _scrollView.contentSize.height)];
+    [_scrollView setPagingEnabled:YES];
     
     // PageControl configuration.
-    [pageControl_ setNumberOfPages:[self numberOfPages]];
-    [pageControl_ setCurrentPage:0];
+    [_pageControl setNumberOfPages:[self numberOfPages]];
+    [_pageControl setCurrentPage:0];
     
     // Overlays.
     [self setOverlayTexts];
@@ -95,35 +95,35 @@
 
 #pragma mark - Animations
 - (void)animateScrolling{
-    if (currentState_ == ScrollingStateManual)
+    if (_currentState == ScrollingStateManual)
         return;
     
     // Jump to the next page...
-    int nextPage = currentPageIndex_ + 1;
+    int nextPage = _currentPageIndex + 1;
     if (nextPage == [self numberOfPages]){
         // ...stop the auto-scrolling or...
         if (!_autoScrollLooping){
-            currentState_ = ScrollingStateManual;
+            _currentState = ScrollingStateManual;
             return;
         }
         
         // ...jump to the first page.
         nextPage = 0;
-        currentState_ = ScrollingStateLooping;
+        _currentState = ScrollingStateLooping;
         
         // Set alpha on layers.
         [self setLayersPrimaryAlphaWithPageIndex:0];
         [self setBackLayerPictureWithPageIndex:-1];
     } else {
-        currentState_ = ScrollingStateAuto;
+        _currentState = ScrollingStateAuto;
     }
     
     // Make the scrollView animation.
-    [scrollView_ setContentOffset:CGPointMake(nextPage * windowSize_.width,0)
+    [_scrollView setContentOffset:CGPointMake(nextPage * _windowSize.width,0)
                          animated:YES];
     
     // Set the PageControl on the right page.
-    [pageControl_ setCurrentPage:nextPage];
+    [_pageControl setCurrentPage:nextPage];
     
     // Call the next animation after X seconds.
     [self autoScrollToNextPage];
@@ -145,7 +145,7 @@
 // Setup the Title Label.
 - (void)setOverlayTitle{
     // ...or change by an UIImageView if you need it.
-    [overlayTitle_ setText:@"Welcome"];
+    [_overlayTitle setText:@"Welcome"];
 }
 
 // Setup the SubTitle/Description style/text.
@@ -158,7 +158,7 @@
                                                      layer:[page subTitle]
                                                commonStyle:_commonPageSubTitleStyle
                                                      index:index];
-            [scrollView_ addSubview:subTitle];
+            [_scrollView addSubview:subTitle];
         }
         // Description.
         if ([[[page description] text] length]){
@@ -166,7 +166,7 @@
                                                         layer:[page description]
                                                   commonStyle:_commonPageDescriptionStyle
                                                         index:index];
-            [scrollView_ addSubview:description];
+            [_scrollView addSubview:description];
         }
         
         index++;
@@ -178,9 +178,9 @@
                       commonStyle:(ICETutorialLabelStyle *)commonStyle
                             index:(NSUInteger)index{
     // SubTitles.
-    UILabel *overlayLabel = [[UILabel alloc] initWithFrame:CGRectMake((index  * windowSize_.width),
-                                                                      windowSize_.height - [commonStyle offset],
-                                                                      windowSize_.width,
+    UILabel *overlayLabel = [[UILabel alloc] initWithFrame:CGRectMake((index  * _windowSize.width),
+                                                                      _windowSize.height - [commonStyle offset],
+                                                                      _windowSize.width,
                                                                       TUTORIAL_LABEL_HEIGHT)];
     [overlayLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     [overlayLabel setNumberOfLines:[commonStyle linesNumber]];
@@ -196,19 +196,19 @@
     else
         [overlayLabel setTextColor:[commonStyle textColor]];
   
-    [scrollView_ addSubview:overlayLabel];
+    [_scrollView addSubview:overlayLabel];
     return overlayLabel;
 }
 
 #pragma mark - Layers management
 // Handle the background layer image switch.
 - (void)setBackLayerPictureWithPageIndex:(NSInteger)index{
-    [self setBackgroundImage:backLayerView_ withIndex:index + 1];
+    [self setBackgroundImage:_backLayerView withIndex:index + 1];
 }
 
 // Handle the front layer image switch.
 - (void)setFrontLayerPictureWithPageIndex:(NSInteger)index{
-    [self setBackgroundImage:frontLayerView_ withIndex:index];
+    [self setBackgroundImage:_frontLayerView withIndex:index];
 }
 
 // Handle page image's loading
@@ -224,19 +224,19 @@
 
 // Setup layer's alpha.
 - (void)setLayersPrimaryAlphaWithPageIndex:(NSInteger)index{
-    [frontLayerView_ setAlpha:1];
-    [backLayerView_ setAlpha:0];
+    [_frontLayerView setAlpha:1];
+    [_backLayerView setAlpha:0];
 }
 
 // Preset the origin state.
 - (void)setOriginLayersState{
-    currentState_ = ScrollingStateAuto;
+    _currentState = ScrollingStateAuto;
     [self setLayersPicturesWithIndex:0];
 }
 
 // Setup the layers with the page index.
 - (void)setLayersPicturesWithIndex:(NSInteger)index{
-    currentPageIndex_ = index;
+    _currentPageIndex = index;
     [self setLayersPrimaryAlphaWithPageIndex:index];
     [self setFrontLayerPictureWithPageIndex:index];
     [self setBackLayerPictureWithPageIndex:index];
@@ -244,7 +244,7 @@
 
 // Animate the fade-in/out (Cross-disolve) with the scrollView translation.
 - (void)disolveBackgroundWithContentOffset:(float)offset{
-    if (currentState_ == ScrollingStateLooping){
+    if (_currentState == ScrollingStateLooping){
         // Jump from the last page to the first.
         [self scrollingToFirstPageWithOffset:offset];
     } else {
@@ -256,7 +256,7 @@
 // Handle alpha on layers when the auto-scrolling is looping to the first page.
 - (void)scrollingToFirstPageWithOffset:(float)offset{
     // Compute the scrolling percentage on all the page.
-    offset = (offset * windowSize_.width) / (windowSize_.width * [self numberOfPages]);
+    offset = (offset * _windowSize.width) / (_windowSize.width * [self numberOfPages]);
     
     // Scrolling finished...
     if (offset == 0){
@@ -270,8 +270,8 @@
     float frontLayerAlpha = offset;
     
     // Set alpha.
-    [backLayerView_ setAlpha:backLayerAlpha];
-    [frontLayerView_ setAlpha:frontLayerAlpha];
+    [_backLayerView setAlpha:backLayerAlpha];
+    [_frontLayerView setAlpha:frontLayerAlpha];
 }
 
 // Handle alpha on layers when we are scrolling to the next/previous page.
@@ -284,14 +284,14 @@
     
     // This is only when you scroll to the right on the first page.
     // That will fade-in black the first picture.
-    if (alphaValue < 0 && currentPageIndex_ == 0){
-        [backLayerView_ setImage:nil];
-        [frontLayerView_ setAlpha:(1 + alphaValue)];
+    if (alphaValue < 0 && _currentPageIndex == 0){
+        [_backLayerView setImage:nil];
+        [_frontLayerView setAlpha:(1 + alphaValue)];
         return;
     }
     
     // Switch pictures, and imageView alpha.
-    if (page != currentPageIndex_)
+    if (page != _currentPageIndex)
         [self setLayersPicturesWithIndex:page];
     
     // Invert alpha for the front picture.
@@ -299,23 +299,23 @@
     float frontLayerAlpha = (1 - alphaValue);
     
     // Set alpha.
-    [backLayerView_ setAlpha:backLayerAlpha];
-    [frontLayerView_ setAlpha:frontLayerAlpha];
+    [_backLayerView setAlpha:backLayerAlpha];
+    [_frontLayerView setAlpha:frontLayerAlpha];
 }
 
 #pragma mark - ScrollView delegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     // Get scrolling position, and send the alpha values.
-    float scrollingPosition = scrollView.contentOffset.x / windowSize_.width;
+    float scrollingPosition = scrollView.contentOffset.x / _windowSize.width;
     [self disolveBackgroundWithContentOffset:scrollingPosition];
     
-    if (scrollView_.isTracking)
-        currentState_ = ScrollingStateManual;
+    if (_scrollView.isTracking)
+        _currentState = ScrollingStateManual;
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     // Update the page index.
-    [pageControl_ setCurrentPage:currentPageIndex_];
+    [_pageControl setCurrentPage:_currentPageIndex];
 }
 
 @end

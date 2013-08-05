@@ -1,6 +1,6 @@
 //
 //  AppDelegate.h
-//  tutorial
+//
 //
 //  Created by Patrick Trillsam on 25/03/13.
 //  Copyright (c) 2013 Patrick Trillsam. All rights reserved.
