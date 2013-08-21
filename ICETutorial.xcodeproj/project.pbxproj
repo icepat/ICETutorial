@@ -10,14 +10,12 @@
 		0C6833CE1747B7B8004F9123 /* ICETutorialController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6833CD1747B7B8004F9123 /* ICETutorialController.m */; };
 		0C6833D11747B831004F9123 /* ICETutorialPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6833D01747B831004F9123 /* ICETutorialPage.m */; };
 		80A29020171156F6004EA534 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 80A28FF6171156F6004EA534 /* AppDelegate.m */; };
-		80A29026171156F6004EA534 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 80A28FFD171156F6004EA534 /* InfoPlist.strings */; };
 		80A29027171156F6004EA534 /* ICETutorialController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 80A28FFF171156F6004EA534 /* ICETutorialController_iPad.xib */; };
 		80A29028171156F6004EA534 /* ICETutorialController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 80A29001171156F6004EA534 /* ICETutorialController_iPhone.xib */; };
 		80A29041171156F6004EA534 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 80A2901B171156F6004EA534 /* main.m */; };
 		80A2906417115756004EA534 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 80A2904717115756004EA534 /* Default-568h@2x.png */; };
 		80A2906517115756004EA534 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 80A2904817115756004EA534 /* Default.png */; };
 		80A2906617115756004EA534 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 80A2904917115756004EA534 /* Default@2x.png */; };
-		80A29081171157B9004EA534 /* ICETutorial-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 80A2907F171157B9004EA534 /* ICETutorial-Info.plist */; };
 		80A2909B17116331004EA534 /* tutorial_background_00@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 80A2909617116331004EA534 /* tutorial_background_00@2x.jpg */; };
 		80A2909C17116331004EA534 /* tutorial_background_01@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 80A2909717116331004EA534 /* tutorial_background_01@2x.jpg */; };
 		80A2909D17116331004EA534 /* tutorial_background_02@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 80A2909817116331004EA534 /* tutorial_background_02@2x.jpg */; };
@@ -27,6 +25,7 @@
 		80A290A31711660E004EA534 /* button-background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 80A290A11711660E004EA534 /* button-background@2x.png */; };
 		80A290A6171170FF004EA534 /* background-gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 80A290A4171170FF004EA534 /* background-gradient.png */; };
 		80A290A7171170FF004EA534 /* background-gradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 80A290A5171170FF004EA534 /* background-gradient@2x.png */; };
+		CDAD68DE17C4CAB600737949 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 80A28FFD171156F6004EA534 /* InfoPlist.strings */; };
 		CDC0638B17006175004E4142 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDC0638A17006175004E4142 /* UIKit.framework */; };
 		CDC0638D17006175004E4142 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDC0638C17006175004E4142 /* Foundation.framework */; };
 		CDC0638F17006175004E4142 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDC0638E17006175004E4142 /* CoreGraphics.framework */; };
@@ -211,13 +210,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				80A29026171156F6004EA534 /* InfoPlist.strings in Resources */,
+				CDAD68DE17C4CAB600737949 /* InfoPlist.strings in Resources */,
 				80A29027171156F6004EA534 /* ICETutorialController_iPad.xib in Resources */,
 				80A29028171156F6004EA534 /* ICETutorialController_iPhone.xib in Resources */,
 				80A2906417115756004EA534 /* Default-568h@2x.png in Resources */,
 				80A2906517115756004EA534 /* Default.png in Resources */,
 				80A2906617115756004EA534 /* Default@2x.png in Resources */,
-				80A29081171157B9004EA534 /* ICETutorial-Info.plist in Resources */,
 				80A2909B17116331004EA534 /* tutorial_background_00@2x.jpg in Resources */,
 				80A2909C17116331004EA534 /* tutorial_background_01@2x.jpg in Resources */,
 				80A2909D17116331004EA534 /* tutorial_background_02@2x.jpg in Resources */,
