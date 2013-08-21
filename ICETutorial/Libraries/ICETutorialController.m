@@ -41,9 +41,23 @@
     return self;
 }
 
+- (id)initWithNibName:(NSString *)nibNameOrNil
+               bundle:(NSBundle *)nibBundleOrNil
+                pages:(NSArray *)pages
+         button1Block:(ButtonBlock)block1
+         button2Block:(ButtonBlock)block2{
+    self = [self initWithNibName:nibNameOrNil bundle:nibBundleOrNil andPages:pages];
+    if (self){
+        _button1Block = block1;
+        _button2Block = block2;
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[self view] setBackgroundColor:[UIColor blackColor]];
     
     _windowSize = [[UIScreen mainScreen] bounds].size;
     
@@ -72,12 +86,22 @@
 }
 
 #pragma mark - Actions
+- (void)setButton1Block:(ButtonBlock)block{
+    _button1Block = block;
+}
+
+- (void)setButton2Block:(ButtonBlock)block{
+    _button2Block = block;
+}
+
 - (IBAction)didClickOnButton1:(id)sender{
-    
+    if (_button1Block)
+        _button1Block(sender);
 }
 
 - (IBAction)didClickOnButton2:(id)sender{
-    
+    if (_button2Block)
+        _button2Block(sender);
 }
 
 #pragma mark - Pages
@@ -95,7 +119,7 @@
 
 #pragma mark - Animations
 - (void)animateScrolling{
-    if (_currentState == ScrollingStateManual)
+    if (_currentState & ScrollingStateManual)
         return;
     
     // Jump to the next page...
@@ -137,8 +161,15 @@
                    afterDelay:_autoScrollDurationOnPage];
 }
 
+#pragma mark - Scrolling management
+// Run it.
 - (void)startScrolling{
     [self autoScrollToNextPage];
+}
+
+// Manually stop the scrolling
+- (void)stopScrolling{
+    _currentState = ScrollingStateManual;
 }
 
 #pragma mark - Overlay management
@@ -231,6 +262,8 @@
 // Preset the origin state.
 - (void)setOriginLayersState{
     _currentState = ScrollingStateAuto;
+    [_backLayerView setBackgroundColor:[UIColor blackColor]];
+    [_frontLayerView setBackgroundColor:[UIColor blackColor]];
     [self setLayersPicturesWithIndex:0];
 }
 
@@ -244,7 +277,7 @@
 
 // Animate the fade-in/out (Cross-disolve) with the scrollView translation.
 - (void)disolveBackgroundWithContentOffset:(float)offset{
-    if (_currentState == ScrollingStateLooping){
+    if (_currentState & ScrollingStateLooping){
         // Jump from the last page to the first.
         [self scrollingToFirstPageWithOffset:offset];
     } else {

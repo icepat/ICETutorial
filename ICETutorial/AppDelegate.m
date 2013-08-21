@@ -62,6 +62,22 @@
     // Set the common styles, and start scrolling (auto scroll, and looping enabled by default)
     [self.viewController setCommonPageSubTitleStyle:subStyle];
     [self.viewController setCommonPageDescriptionStyle:descStyle];
+
+    // Set button 1 action.
+    [self.viewController setButton1Block:^(UIButton *button){
+        NSLog(@"Button 1 pressed.");
+    }];
+    
+    // Set button 2 action, stop the scrolling.    
+    __unsafe_unretained typeof(self) weakSelf = self;
+    [self.viewController setButton2Block:^(UIButton *button){
+        NSLog(@"Button 2 pressed.");
+        NSLog(@"Auto-scrolling stopped.");
+        
+        [weakSelf.viewController stopScrolling];
+    }];
+    
+    // Run it.
     [self.viewController startScrolling];
     
     self.window.rootViewController = self.viewController;

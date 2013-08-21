@@ -20,11 +20,13 @@
 #define TUTORIAL_DEFAULT_DURATION_ON_PAGE       3.0f
 
 // Scrolling state.
-typedef enum {
-    ScrollingStateAuto,
-    ScrollingStateLooping,
-    ScrollingStateManual
-}ScrollingState;
+typedef NS_OPTIONS(NSUInteger, ScrollingState) {
+    ScrollingStateAuto      = 1 << 0,
+    ScrollingStateManual    = 1 << 1,
+    ScrollingStateLooping   = 1 << 2,
+};
+
+typedef void (^ButtonBlock)(UIButton *button);
 
 @interface ICETutorialController : UIViewController <UIScrollViewDelegate> {
     __weak IBOutlet UIImageView *_backLayerView;
@@ -45,6 +47,9 @@ typedef enum {
     
     ICETutorialLabelStyle *_commonPageSubTitleStyle;
     ICETutorialLabelStyle *_commonPageDescriptionStyle;
+    
+    ButtonBlock _button1Block;
+    ButtonBlock _button2Block;
 }
 
 @property (nonatomic, assign) BOOL autoScrollEnabled;
@@ -53,19 +58,28 @@ typedef enum {
 @property (nonatomic, retain) ICETutorialLabelStyle *commonPageSubTitleStyle;
 @property (nonatomic, retain) ICETutorialLabelStyle *commonPageDescriptionStyle;
 
+// Inits.
 - (id)initWithNibName:(NSString *)nibNameOrNil
                bundle:(NSBundle *)nibBundleOrNil;
 - (id)initWithNibName:(NSString *)nibNameOrNil
                bundle:(NSBundle *)nibBundleOrNil
              andPages:(NSArray *)pages;
-- (void)startScrolling;
+- (id)initWithNibName:(NSString *)nibNameOrNil
+               bundle:(NSBundle *)nibBundleOrNil
+                pages:(NSArray *)pages
+         button1Block:(ButtonBlock)block1
+         button2Block:(ButtonBlock)block2;
+
+// Actions.
+- (void)setButton1Block:(ButtonBlock)block;
+- (void)setButton2Block:(ButtonBlock)block;
 
 // Pages management.
 - (void)setPages:(NSArray*)pages;
 - (NSUInteger)numberOfPages;
 
-// Actions.
-- (IBAction)didClickOnButton1:(id)sender;
-- (IBAction)didClickOnButton2:(id)sender;
+// Scrolling.
+- (void)startScrolling;
+- (void)stopScrolling;
 
 @end
