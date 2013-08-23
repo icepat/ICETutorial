@@ -104,6 +104,17 @@
         _button2Block(sender);
 }
 
+- (IBAction)didClickOnPageControl:(UIPageControl *)sender {
+    _currentState = ScrollingStateManual;
+    
+    // Make the scrollView animation.
+    [_scrollView setContentOffset:CGPointMake(sender.currentPage * _windowSize.width,0)
+                         animated:YES];
+    
+    // Set the PageControl on the right page.
+    [_pageControl setCurrentPage:sender.currentPage];
+}
+
 #pragma mark - Pages
 // Set the list of pages (ICETutorialPage)
 - (void)setPages:(NSArray *)pages{

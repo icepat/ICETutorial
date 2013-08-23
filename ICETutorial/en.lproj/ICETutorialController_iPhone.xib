@@ -304,6 +304,15 @@
 					</object>
 					<int key="connectionID">257</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">didClickOnPageControl:</string>
+						<reference key="source" ref="805740042"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">13</int>
+					</object>
+					<int key="connectionID">295</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -972,7 +981,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">294</int>
+			<int key="maxID">295</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -982,6 +991,7 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="didClickOnButton1:">id</string>
 						<string key="didClickOnButton2:">id</string>
+						<string key="didClickOnPageControl:">UIPageControl</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="didClickOnButton1:">
@@ -991,6 +1001,10 @@
 						<object class="IBActionInfo" key="didClickOnButton2:">
 							<string key="name">didClickOnButton2:</string>
 							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="didClickOnPageControl:">
+							<string key="name">didClickOnPageControl:</string>
+							<string key="candidateClassName">UIPageControl</string>
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
