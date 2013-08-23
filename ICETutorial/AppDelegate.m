@@ -42,7 +42,7 @@
     ICETutorialLabelStyle *descStyle = [[ICETutorialLabelStyle alloc] init];
     [descStyle setFont:TUTORIAL_DESC_FONT];
     [descStyle setTextColor:TUTORIAL_LABEL_TEXT_COLOR];
-    [subStyle setLinesNumber:TUTORIAL_DESC_LINES_NUMBER];
+    [descStyle setLinesNumber:TUTORIAL_DESC_LINES_NUMBER];
     [descStyle setOffset:TUTORIAL_DESC_OFFSET];
     
     // Load into an array.

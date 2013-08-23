@@ -82,4 +82,7 @@ typedef void (^ButtonBlock)(UIButton *button);
 - (void)startScrolling;
 - (void)stopScrolling;
 
+// State.
+- (ScrollingState)getCurrentState;
+
 @end

@@ -172,6 +172,12 @@
     _currentState = ScrollingStateManual;
 }
 
+#pragma mark - State management
+// State.
+- (ScrollingState)getCurrentState{
+    return _currentState;
+}
+
 #pragma mark - Overlay management
 // Setup the Title Label.
 - (void)setOverlayTitle{
