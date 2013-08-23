@@ -45,6 +45,7 @@ Very simple and efficient tutorial, composed with N full-screen pictures that yo
 <li>Scrolling sub-titles for page, with associated descriptions (change the texts, font, color...)</li>
 <li>Auto-scrolling (enable/disable, loop, setup duration)</li>
 <li>Cross fade between next/previous background</li>
+<li>Easy to use block access to button's events.</li>
 </ul><p><img src="https://github.com/icepat/ICETutorial/blob/master/screen_shot.jpg?raw=true" alt="ICETutorial"></p>
 
 <h3>
@@ -77,7 +78,7 @@ All the available settings for the scrolling are located in the header : ICETuto
     ICETutorialLabelStyle *descStyle = [[ICETutorialLabelStyle alloc] init];
     [descStyle setFont:TUTORIAL_DESC_FONT];
     [descStyle setTextColor:TUTORIAL_LABEL_TEXT_COLOR];
-    [subStyle setLinesNumber:TUTORIAL_DESC_LINES_NUMBER];
+    [descStyle setLinesNumber:TUTORIAL_DESC_LINES_NUMBER];
     [descStyle setOffset:TUTORIAL_DESC_OFFSET];
 
     // Load into an array.
@@ -94,6 +95,22 @@ All the available settings for the scrolling are located in the header : ICETuto
     // Set the common styles, and start scrolling (auto scroll, and looping enabled by default)
     [self.viewController setCommonPageSubTitleStyle:subStyle];
     [self.viewController setCommonPageDescriptionStyle:descStyle];
+
+    // Set button 1 action.
+    [self.viewController setButton1Block:^(UIButton *button){
+        NSLog(@"Button 1 pressed.");
+    }];
+
+    // Set button 2 action, stop the scrolling.    
+    __unsafe_unretained typeof(self) weakSelf = self;
+    [self.viewController setButton2Block:^(UIButton *button){
+        NSLog(@"Button 2 pressed.");
+        NSLog(@"Auto-scrolling stopped.");
+
+        [weakSelf.viewController stopScrolling];
+    }];
+
+    // Run it.
     [self.viewController startScrolling];
 </code></pre>
 
