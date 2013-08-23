@@ -19,7 +19,7 @@ Here are the features :
 The code is commented, and I guess, easy to read/understand/modify.
 All the available settings for the scrolling are located in the header : ICETutorial.h :
 
-Texts and pictures :
+**Texts and pictures :**
 ```objective-c
     // Init the pages texts, and pictures.
     ICETutorialPage *layer1 = [[ICETutorialPage alloc] initWithSubTitle:@"Picture 1"
@@ -31,7 +31,7 @@ Texts and pictures :
     [...] 
 ```
 
-Common styles for SubTitles and Descriptions :
+**Common styles for SubTitles and Descriptions :**
 ```objective-c
     // Set the common style for SubTitles and Description (can be overrided on each page).
     ICETutorialLabelStyle *subStyle = [[ICETutorialLabelStyle alloc] init];
@@ -51,7 +51,7 @@ Common styles for SubTitles and Descriptions :
   
 ```
 
-Init and load :
+**Init and load :**
 ```objective-c
     self.viewController = [[ICETutorialController alloc] initWithNibName:@"ICETutorialController_iPhone"
                                                                   bundle:nil
@@ -79,8 +79,7 @@ Init and load :
     [self.viewController startScrolling];
 ```
 
-The title is located in the ICETutorial.m :
-
+**The title is located in the ICETutorial.m :**
 ```objective-c
 // Setup the Title Label.
 - (void)setOverlayTitle{
@@ -89,7 +88,7 @@ The title is located in the ICETutorial.m :
 }
 ```
 
-Checkout the others projects available on my account @Icepat.
+Checkout the others projects available on my account [@Icepat](https://github.com/icepat/).
 
 Questions or ideas : patrick.trillsam@gmail.com.
 
