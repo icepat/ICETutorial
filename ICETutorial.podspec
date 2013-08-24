@@ -17,4 +17,5 @@ Pod::Spec.new do |s|
   s.public_header_files = 'ICETutorial/Libraries'
   s.frameworks = 'UIKit', 'CoreGraphics'
   s.requires_arc = true
+  s.resources = ['Resources/*.png', 'ICETutorial/en.lproj/*.xib']
 end
