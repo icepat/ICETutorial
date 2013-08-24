@@ -29,8 +29,6 @@
 		CDC0638B17006175004E4142 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDC0638A17006175004E4142 /* UIKit.framework */; };
 		CDC0638D17006175004E4142 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDC0638C17006175004E4142 /* Foundation.framework */; };
 		CDC0638F17006175004E4142 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDC0638E17006175004E4142 /* CoreGraphics.framework */; };
-		CDC0642F1702CA9A004E4142 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDC0642D1702CA9A004E4142 /* EventKit.framework */; };
-		CDC064301702CA9A004E4142 /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDC0642E1702CA9A004E4142 /* EventKitUI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,8 +60,6 @@
 		CDC0638A17006175004E4142 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CDC0638C17006175004E4142 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CDC0638E17006175004E4142 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		CDC0642D1702CA9A004E4142 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
-		CDC0642E1702CA9A004E4142 /* EventKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKitUI.framework; path = System/Library/Frameworks/EventKitUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,8 +67,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CDC0642F1702CA9A004E4142 /* EventKit.framework in Frameworks */,
-				CDC064301702CA9A004E4142 /* EventKitUI.framework in Frameworks */,
 				CDC0638B17006175004E4142 /* UIKit.framework in Frameworks */,
 				CDC0638D17006175004E4142 /* Foundation.framework in Frameworks */,
 				CDC0638F17006175004E4142 /* CoreGraphics.framework in Frameworks */,
@@ -132,8 +126,6 @@
 			isa = PBXGroup;
 			children = (
 				80A2904417115756004EA534 /* Ressources */,
-				CDC0642E1702CA9A004E4142 /* EventKitUI.framework */,
-				CDC0642D1702CA9A004E4142 /* EventKit.framework */,
 				0C6833CB1747B7B8004F9123 /* Libraries */,
 				80A28FF4171156F6004EA534 /* ICETutorial */,
 				CDC0638917006175004E4142 /* Frameworks */,
