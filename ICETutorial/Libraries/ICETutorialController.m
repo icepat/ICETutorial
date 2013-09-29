@@ -244,7 +244,6 @@
     else
         [overlayLabel setTextColor:[commonStyle textColor]];
   
-    [_scrollView addSubview:overlayLabel];
     return overlayLabel;
 }
 
