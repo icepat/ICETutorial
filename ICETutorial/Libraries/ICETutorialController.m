@@ -263,7 +263,7 @@
     if (index >= [_pages count]){
         [imageView setImage:nil];
         return;
-    }
+    } 
     
     NSString *imageName = [NSString stringWithFormat:@"%@",[[_pages objectAtIndex:index] pictureName]];
     [imageView setImage:[UIImage imageNamed:imageName]];
@@ -340,7 +340,8 @@
     }
     
     // Switch pictures, and imageView alpha.
-    if (page != _currentPageIndex)
+    if (page != _currentPageIndex ||
+       (page == _currentPageIndex && 0.0 < offset && offset < 1.0))
         [self setLayersPicturesWithIndex:page];
     
     // Invert alpha for the front picture.
