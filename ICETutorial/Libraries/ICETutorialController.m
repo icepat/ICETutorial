@@ -10,68 +10,50 @@
 
 
 @interface ICETutorialController ()
-
+@property (nonatomic, strong, readonly) UIImageView *frontLayerView;
+@property (nonatomic, strong, readonly) UIImageView *backLayerView;
+@property (nonatomic, strong, readonly) UIScrollView *scrollView;
+@property (nonatomic, strong, readonly) UILabel *overlayTitle;
+@property (nonatomic, strong, readonly) UIPageControl *pageControl;
+@property (nonatomic, strong, readonly) UIButton *leftButton;
+@property (nonatomic, strong, readonly) UIButton *rightButton;
 @end
 
 @implementation ICETutorialController
-@synthesize autoScrollEnabled = _autoScrollEnabled;
-@synthesize autoScrollLooping = _autoScrollLooping;
-@synthesize autoScrollDurationOnPage = _autoScrollDurationOnPage;
-@synthesize commonPageSubTitleStyle = _commonPageSubTitleStyle;
-@synthesize commonPageDescriptionStyle = _commonPageDescriptionStyle;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil
-               bundle:(NSBundle *)nibBundleOrNil{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self){
+- (instancetype)initWithPages:(NSArray *)pages {
+    self = [self init];
+    if (self) {
         _autoScrollEnabled = YES;
         _autoScrollLooping = YES;
         _autoScrollDurationOnPage = TUTORIAL_DEFAULT_DURATION_ON_PAGE;
-    }
-    return self;
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil
-               bundle:(NSBundle *)nibBundleOrNil
-             andPages:(NSArray *)pages{
-    self = [self initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self){
         _pages = pages;
     }
     return self;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil
-               bundle:(NSBundle *)nibBundleOrNil
-                pages:(NSArray *)pages
-         button1Block:(ButtonBlock)block1
-         button2Block:(ButtonBlock)block2{
-    self = [self initWithNibName:nibNameOrNil bundle:nibBundleOrNil andPages:pages];
-    if (self){
+- (instancetype)initWithPages:(NSArray *)pages
+                 button1Block:(ButtonBlock)block1
+                 button2Block:(ButtonBlock)block2 {
+    self = [self initWithPages:pages];
+    if (self) {
         _button1Block = block1;
         _button2Block = block2;
     }
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-    [[self view] setBackgroundColor:[UIColor blackColor]];
+    [self.view setBackgroundColor:[UIColor blackColor]];
     
     _windowSize = [[UIScreen mainScreen] bounds].size;
     
-    // ScrollView configuration.
-    [_scrollView setContentSize:CGSizeMake([self numberOfPages] * _windowSize.width,
-                                           _scrollView.contentSize.height)];
-    [_scrollView setPagingEnabled:YES];
-    
-    // PageControl configuration.
-    [_pageControl setNumberOfPages:[self numberOfPages]];
-    [_pageControl setCurrentPage:0];
+    [self setupView];
     
     // Overlays.
     [self setOverlayTexts];
+    [self setOverlayTitle];
     
     // Preset the origin state.
     [self setOriginLayersState];
@@ -80,26 +62,212 @@
     [self autoScrollToNextPage];
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)setupView {
+    _frontLayerView = [[UIImageView alloc] initWithFrame:self.view.bounds];
+    _backLayerView = [[UIImageView alloc] initWithFrame:self.view.bounds];
+    
+    // Decoration.
+    UIImageView *gradientView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 368, 320, 200)];
+    [gradientView setImage:[UIImage imageNamed:@"background-gradient.png"]];
+    
+    // Title.
+    _overlayTitle = [[UILabel alloc] initWithFrame:CGRectMake(84, 116, 212, 50)];
+    [self.overlayTitle setTextColor:[UIColor whiteColor]];
+    [self.overlayTitle setFont:[UIFont fontWithName:@"Helvetica-Bold" size:32.0]];
+    
+    // ScrollView configuration.
+    _scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    [self.scrollView setDelegate:self];
+    [self.scrollView setPagingEnabled:YES];
+    [self.scrollView setContentSize:CGSizeMake([self numberOfPages] * _windowSize.width,
+                                                self.scrollView.contentSize.height)];
+
+    // PageControl configuration.
+    _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(141, 453, 36, 32)];
+    [self.pageControl setNumberOfPages:[self numberOfPages]];
+    [self.pageControl setCurrentPage:0];
+    [self.pageControl addTarget:self
+                         action:@selector(didClickOnPageControl:)
+               forControlEvents:UIControlEventValueChanged];
+    
+    // UIButtons.
+    _leftButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 494, 130, 36)];
+    _rightButton = [[UIButton alloc] initWithFrame:CGRectMake(172, 494, 130, 36)];
+    [self.leftButton setBackgroundColor:[UIColor darkGrayColor]];
+    [self.rightButton setBackgroundColor:[UIColor darkGrayColor]];
+    [self.leftButton setTitle:@"Button 1" forState:UIControlStateNormal];
+    [self.rightButton setTitle:@"Button 2" forState:UIControlStateNormal];
+    
+    [self.leftButton addTarget:self
+                        action:@selector(didClickOnButton1:)
+              forControlEvents:UIControlEventTouchUpInside];
+    [self.rightButton addTarget:self
+                         action:@selector(didClickOnButton2:)
+               forControlEvents:UIControlEventTouchUpInside];
+
+    
+    [self.view addSubview:self.frontLayerView];
+    [self.view addSubview:self.backLayerView];
+    [self.view addSubview:gradientView];
+    [self.view addSubview:self.scrollView];
+    [self.view addSubview:self.overlayTitle];
+    [self.view addSubview:self.pageControl];
+    [self.view addSubview:self.leftButton];
+    [self.view addSubview:self.rightButton];
+    
+    [self addAllConstraints];
+}
+
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
+#pragma mark - Constraints management.
+- (void)addAllConstraints {
+    [self imageViewConstraints];
+    [self addSlugLineConstraints];
+    [self addDateLineConstraints];
+}
+
+// UIImageView constraints.
+- (void)imageViewConstraints {
+	[self.frontLayerView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+	[self.backLayerView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.leftButton
+                                                          attribute:NSLayoutAttributeLeading
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeLeft
+                                                         multiplier:1
+                                                           constant:20]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.rightButton
+                                                          attribute:NSLayoutAttributeLeft
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.leftButton
+                                                          attribute:NSLayoutAttributeRight
+                                                         multiplier:1
+                                                           constant:20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.rightButton
+                                                          attribute:NSLayoutAttributeRight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeRight
+                                                         multiplier:1
+                                                           constant:20]];
+    
+    
+    
+//    [self.view addConstraints:[NSLayoutConstraint
+//                               constraintsWithVisualFormat:@"H:|-20-[_leftButton(130)]-20-[_rightButton(130)]-20-|"
+//                               options:0 metrics:nil
+//                               views:NSDictionaryOfVariableBindings(_leftButton, _rightButton)]];
+//    [self.view addConstraints:[NSLayoutConstraint
+//                               constraintsWithVisualFormat:@"V:|-20-[_leftButton(36)]-|"
+//                               options:0 metrics:nil
+//                               views:NSDictionaryOfVariableBindings(_leftButton, _rightButton)]];
+//    [self.view addConstraints:[NSLayoutConstraint
+//                               constraintsWithVisualFormat:@"V:|-[_rightButton(36)]-20-|"
+//                               options:0 metrics:nil
+//                               views:NSDictionaryOfVariableBindings(_leftButton, _rightButton)]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.leftButton
+//                                                     attribute:NSLayoutAttributeBottom
+//                                                     relatedBy:NSLayoutRelationEqual
+//                                                        toItem:self.view
+//                                                     attribute:NSLayoutAttributeBottom
+//                                                    multiplier:1
+//                                                      constant:20]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.leftButton
+//                                                          attribute:NSLayoutAttributeLeft
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:self.view
+//                                                          attribute:NSLayoutAttributeLeft
+//                                                         multiplier:1
+//                                                           constant:20]];
+//    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.frontLayerView
+//                                                     attribute:NSLayoutAttributeLeft
+//                                                     relatedBy:NSLayoutRelationEqual
+//                                                        toItem:self
+//                                                     attribute:NSLayoutAttributeLeft
+//                                                    multiplier:1
+//                                                      constant:0]];
+//    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.frontLayerView
+//                                                     attribute:NSLayoutAttributeRight
+//                                                     relatedBy:NSLayoutRelationEqual
+//                                                        toItem:self
+//                                                     attribute:NSLayoutAttributeRight
+//                                                    multiplier:1
+//                                                      constant:0]];
+}
+
+// Slug line constraints.
+- (void)addSlugLineConstraints
+{
+//    [self addConstraint:[NSLayoutConstraint constraintWithItem:_itemSlugLine
+//                                                     attribute:NSLayoutAttributeTop
+//                                                     relatedBy:NSLayoutRelationEqual
+//                                                        toItem:_itemHeadLine
+//                                                     attribute:NSLayoutAttributeBottom
+//                                                    multiplier:1
+//                                                      constant:0]];
+//    [self addConstraint:[NSLayoutConstraint constraintWithItem:_itemSlugLine
+//                                                     attribute:NSLayoutAttributeLeft
+//                                                     relatedBy:NSLayoutRelationEqual
+//                                                        toItem:self
+//                                                     attribute:NSLayoutAttributeLeft
+//                                                    multiplier:1
+//                                                      constant:CELL_CONTENT_PADDING]];
+//    [self addConstraint:[NSLayoutConstraint constraintWithItem:_itemSlugLine
+//                                                     attribute:NSLayoutAttributeRight
+//                                                     relatedBy:NSLayoutRelationEqual
+//                                                        toItem:self
+//                                                     attribute:NSLayoutAttributeRight
+//                                                    multiplier:1
+//                                                      constant:-CELL_CONTENT_PADDING]];
+}
+
+// Date line constraints.
+- (void)addDateLineConstraints
+{
+//    [self addConstraint:[NSLayoutConstraint constraintWithItem:_itemDateLine
+//                                                     attribute:NSLayoutAttributeTop
+//                                                     relatedBy:NSLayoutRelationEqual
+//                                                        toItem:_itemSlugLine
+//                                                     attribute:NSLayoutAttributeBottom
+//                                                    multiplier:1
+//                                                      constant:0]];
+//    [self addConstraint:[NSLayoutConstraint constraintWithItem:_itemDateLine
+//                                                     attribute:NSLayoutAttributeLeft
+//                                                     relatedBy:NSLayoutRelationEqual
+//                                                        toItem:self
+//                                                     attribute:NSLayoutAttributeLeft
+//                                                    multiplier:1
+//                                                      constant:CELL_CONTENT_PADDING]];
+//    [self addConstraint:[NSLayoutConstraint constraintWithItem:_itemDateLine
+//                                                     attribute:NSLayoutAttributeRight
+//                                                     relatedBy:NSLayoutRelationEqual
+//                                                        toItem:self
+//                                                     attribute:NSLayoutAttributeRight
+//                                                    multiplier:1
+//                                                      constant:-CELL_CONTENT_PADDING]];
+}
+
 #pragma mark - Actions
-- (void)setButton1Block:(ButtonBlock)block{
+- (void)setButton1Block:(ButtonBlock)block {
     _button1Block = block;
 }
 
-- (void)setButton2Block:(ButtonBlock)block{
+- (void)setButton2Block:(ButtonBlock)block {
     _button2Block = block;
 }
 
-- (IBAction)didClickOnButton1:(id)sender{
+- (IBAction)didClickOnButton1:(id)sender {
     if (_button1Block)
         _button1Block(sender);
 }
 
-- (IBAction)didClickOnButton2:(id)sender{
+- (IBAction)didClickOnButton2:(id)sender {
     if (_button2Block)
         _button2Block(sender);
 }
@@ -108,36 +276,38 @@
     _currentState = ScrollingStateManual;
     
     // Make the scrollView animation.
-    [_scrollView setContentOffset:CGPointMake(sender.currentPage * _windowSize.width,0)
-                         animated:YES];
+    [self.scrollView setContentOffset:CGPointMake(sender.currentPage * _windowSize.width,0)
+                             animated:YES];
     
     // Set the PageControl on the right page.
     [_pageControl setCurrentPage:sender.currentPage];
 }
 
 #pragma mark - Pages
-// Set the list of pages (ICETutorialPage)
-- (void)setPages:(NSArray *)pages{
+// Set the list of pages (ICETutorialPage).
+- (void)setPages:(NSArray *)pages {
     _pages = pages;
 }
 
-- (NSUInteger)numberOfPages{
-    if (_pages)
+- (NSUInteger)numberOfPages {
+    if (_pages) {
         return [_pages count];
+    }
     
     return 0;
 }
 
 #pragma mark - Animations
-- (void)animateScrolling{
-    if (_currentState & ScrollingStateManual)
+- (void)animateScrolling {
+    if (_currentState & ScrollingStateManual) {
         return;
+    }
     
     // Jump to the next page...
-    int nextPage = _currentPageIndex + 1;
-    if (nextPage == [self numberOfPages]){
+    NSInteger nextPage = _currentPageIndex + 1;
+    if (nextPage == [self numberOfPages]) {
         // ...stop the auto-scrolling or...
-        if (!_autoScrollLooping){
+        if (!_autoScrollLooping) {
             _currentState = ScrollingStateManual;
             return;
         }
@@ -154,67 +324,68 @@
     }
     
     // Make the scrollView animation.
-    [_scrollView setContentOffset:CGPointMake(nextPage * _windowSize.width,0)
-                         animated:YES];
+    [self.scrollView setContentOffset:CGPointMake(nextPage * _windowSize.width,0)
+                             animated:YES];
     
     // Set the PageControl on the right page.
-    [_pageControl setCurrentPage:nextPage];
+    [self.pageControl setCurrentPage:nextPage];
     
     // Call the next animation after X seconds.
     [self autoScrollToNextPage];
 }
 
 // Call the next animation after X seconds.
-- (void)autoScrollToNextPage{
-    if (_autoScrollEnabled)
+- (void)autoScrollToNextPage {
+    if (_autoScrollEnabled) {
         [self performSelector:@selector(animateScrolling)
                    withObject:nil
                    afterDelay:_autoScrollDurationOnPage];
+    }
 }
 
 #pragma mark - Scrolling management
 // Run it.
-- (void)startScrolling{
+- (void)startScrolling {
     [self autoScrollToNextPage];
 }
 
 // Manually stop the scrolling
-- (void)stopScrolling{
+- (void)stopScrolling {
     _currentState = ScrollingStateManual;
 }
 
 #pragma mark - State management
 // State.
-- (ScrollingState)getCurrentState{
+- (ScrollingState)getCurrentState {
     return _currentState;
 }
 
 #pragma mark - Overlay management
 // Setup the Title Label.
-- (void)setOverlayTitle{
+- (void)setOverlayTitle {
     // ...or change by an UIImageView if you need it.
-    [_overlayTitle setText:@"Welcome"];
+    [self.overlayTitle setText:@"Welcome"];
 }
 
 // Setup the SubTitle/Description style/text.
-- (void)setOverlayTexts{
+- (void)setOverlayTexts {
     int index = 0;    
-    for(ICETutorialPage *page in _pages){
+    for (ICETutorialPage *page in _pages) {
         // SubTitles.
-        if ([[[page subTitle] text] length]){
+        if ([[[page subTitle] text] length]) {
             UILabel *subTitle = [self overlayLabelWithText:[[page subTitle] text]
                                                      layer:[page subTitle]
                                                commonStyle:_commonPageSubTitleStyle
                                                      index:index];
-            [_scrollView addSubview:subTitle];
+            [self.scrollView addSubview:subTitle];
         }
         // Description.
-        if ([[[page description] text] length]){
+        if ([[[page description] text] length]) {
             UILabel *description = [self overlayLabelWithText:[[page description] text]
                                                         layer:[page description]
                                                   commonStyle:_commonPageDescriptionStyle
                                                         index:index];
-            [_scrollView addSubview:description];
+            [self.scrollView addSubview:description];
         }
         
         index++;
@@ -224,7 +395,7 @@
 - (UILabel *)overlayLabelWithText:(NSString *)text
                             layer:(ICETutorialLabelStyle *)style
                       commonStyle:(ICETutorialLabelStyle *)commonStyle
-                            index:(NSUInteger)index{
+                            index:(NSUInteger)index {
     // SubTitles.
     UILabel *overlayLabel = [[UILabel alloc] initWithFrame:CGRectMake((index  * _windowSize.width),
                                                                       _windowSize.height - [commonStyle offset],
@@ -239,28 +410,29 @@
     [overlayLabel setText:text];
     [style font] ? [overlayLabel setFont:[style font]] :
                    [overlayLabel setFont:[commonStyle font]];
-    if ([style textColor])
+    if ([style textColor]) {
         [overlayLabel setTextColor:[style textColor]];
-    else
+    } else {
         [overlayLabel setTextColor:[commonStyle textColor]];
+    }
   
     return overlayLabel;
 }
 
 #pragma mark - Layers management
 // Handle the background layer image switch.
-- (void)setBackLayerPictureWithPageIndex:(NSInteger)index{
-    [self setBackgroundImage:_backLayerView withIndex:index + 1];
+- (void)setBackLayerPictureWithPageIndex:(NSInteger)index {
+    [self setBackgroundImage:self.backLayerView withIndex:index + 1];
 }
 
 // Handle the front layer image switch.
-- (void)setFrontLayerPictureWithPageIndex:(NSInteger)index{
-    [self setBackgroundImage:_frontLayerView withIndex:index];
+- (void)setFrontLayerPictureWithPageIndex:(NSInteger)index {
+    [self setBackgroundImage:self.frontLayerView withIndex:index];
 }
 
 // Handle page image's loading
-- (void)setBackgroundImage:(UIImageView *)imageView withIndex:(NSInteger)index{
-    if (index >= [_pages count]){
+- (void)setBackgroundImage:(UIImageView *)imageView withIndex:(NSInteger)index {
+    if (index >= [_pages count]) {
         [imageView setImage:nil];
         return;
     } 
@@ -270,21 +442,21 @@
 }
 
 // Setup layer's alpha.
-- (void)setLayersPrimaryAlphaWithPageIndex:(NSInteger)index{
-    [_frontLayerView setAlpha:1];
-    [_backLayerView setAlpha:0];
+- (void)setLayersPrimaryAlphaWithPageIndex:(NSInteger)index {
+    [self.frontLayerView setAlpha:1];
+    [self.backLayerView setAlpha:0];
 }
 
 // Preset the origin state.
-- (void)setOriginLayersState{
+- (void)setOriginLayersState {
     _currentState = ScrollingStateAuto;
-    [_backLayerView setBackgroundColor:[UIColor blackColor]];
-    [_frontLayerView setBackgroundColor:[UIColor blackColor]];
+    [self.backLayerView setBackgroundColor:[UIColor blackColor]];
+    [self.frontLayerView setBackgroundColor:[UIColor blackColor]];
     [self setLayersPicturesWithIndex:0];
 }
 
 // Setup the layers with the page index.
-- (void)setLayersPicturesWithIndex:(NSInteger)index{
+- (void)setLayersPicturesWithIndex:(NSInteger)index {
     _currentPageIndex = index;
     [self setLayersPrimaryAlphaWithPageIndex:index];
     [self setFrontLayerPictureWithPageIndex:index];
@@ -292,7 +464,7 @@
 }
 
 // Animate the fade-in/out (Cross-disolve) with the scrollView translation.
-- (void)disolveBackgroundWithContentOffset:(float)offset{
+- (void)disolveBackgroundWithContentOffset:(float)offset {
     if (_currentState & ScrollingStateLooping){
         // Jump from the last page to the first.
         [self scrollingToFirstPageWithOffset:offset];
@@ -303,7 +475,7 @@
 }
 
 // Handle alpha on layers when the auto-scrolling is looping to the first page.
-- (void)scrollingToFirstPageWithOffset:(float)offset{
+- (void)scrollingToFirstPageWithOffset:(float)offset {
     // Compute the scrolling percentage on all the page.
     offset = (offset * _windowSize.width) / (_windowSize.width * [self numberOfPages]);
     
@@ -319,12 +491,12 @@
     float frontLayerAlpha = offset;
     
     // Set alpha.
-    [_backLayerView setAlpha:backLayerAlpha];
-    [_frontLayerView setAlpha:frontLayerAlpha];
+    [self.backLayerView setAlpha:backLayerAlpha];
+    [self.frontLayerView setAlpha:frontLayerAlpha];
 }
 
 // Handle alpha on layers when we are scrolling to the next/previous page.
-- (void)scrollingToNextPageWithOffset:(float)offset{
+- (void)scrollingToNextPageWithOffset:(float)offset {
     // Current page index in scrolling.
     NSInteger page = (int)(offset);
     
@@ -334,8 +506,8 @@
     // This is only when you scroll to the right on the first page.
     // That will fade-in black the first picture.
     if (alphaValue < 0 && _currentPageIndex == 0){
-        [_backLayerView setImage:nil];
-        [_frontLayerView setAlpha:(1 + alphaValue)];
+        [self.backLayerView setImage:nil];
+        [self.frontLayerView setAlpha:(1 + alphaValue)];
         return;
     }
     
@@ -349,23 +521,24 @@
     float frontLayerAlpha = (1 - alphaValue);
     
     // Set alpha.
-    [_backLayerView setAlpha:backLayerAlpha];
-    [_frontLayerView setAlpha:frontLayerAlpha];
+    [self.backLayerView setAlpha:backLayerAlpha];
+    [self.frontLayerView setAlpha:frontLayerAlpha];
 }
 
 #pragma mark - ScrollView delegate
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     // Get scrolling position, and send the alpha values.
     float scrollingPosition = scrollView.contentOffset.x / _windowSize.width;
     [self disolveBackgroundWithContentOffset:scrollingPosition];
     
-    if (_scrollView.isTracking)
+    if (self.scrollView.isTracking) {
         _currentState = ScrollingStateManual;
+    }
 }
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     // Update the page index.
-    [_pageControl setCurrentPage:_currentPageIndex];
+    [self.pageControl setCurrentPage:_currentPageIndex];
 }
 
 @end

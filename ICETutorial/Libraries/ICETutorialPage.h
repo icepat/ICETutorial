@@ -8,13 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ICETutorialLabelStyle : NSObject {
-    NSString *_text;
-    UIFont *_font;
-    UIColor *_textColor;
-    NSUInteger _linesNumber;
-    NSUInteger _offset;
-}
+@interface ICETutorialLabelStyle : NSObject
 
 @property (nonatomic, retain) NSString *text;
 @property (nonatomic, retain) UIFont *font;
@@ -29,11 +23,7 @@
          textColor:(UIColor *)color;
 @end
 
-@interface ICETutorialPage : NSObject {
-    ICETutorialLabelStyle *_subTitle;
-    ICETutorialLabelStyle *_description;
-    NSString *_pictureName;
-}
+@interface ICETutorialPage : NSObject
 
 @property (nonatomic, retain) ICETutorialLabelStyle *subTitle;
 @property (nonatomic, retain) ICETutorialLabelStyle *description;

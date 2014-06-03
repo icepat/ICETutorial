@@ -9,11 +9,6 @@
 #import "ICETutorialPage.h"
 
 @implementation ICETutorialLabelStyle
-@synthesize font = _font;
-@synthesize text = _text;
-@synthesize textColor = _textColor;
-@synthesize linesNumber = _linesNumber;
-@synthesize offset = _offset;
 
 // Init.
 - (id)initWithText:(NSString *)text
@@ -40,9 +35,6 @@
 @end
 
 @implementation ICETutorialPage
-@synthesize subTitle = _subTitle;
-@synthesize description = _description;
-@synthesize pictureName = _pictureName;
 
 // Init.
 - (id)initWithSubTitle:(NSString *)subTitle

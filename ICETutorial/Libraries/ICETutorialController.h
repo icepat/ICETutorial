@@ -29,25 +29,12 @@ typedef NS_OPTIONS(NSUInteger, ScrollingState) {
 typedef void (^ButtonBlock)(UIButton *button);
 
 @interface ICETutorialController : UIViewController <UIScrollViewDelegate> {
-    __weak IBOutlet UIImageView *_backLayerView;
-    __weak IBOutlet UIImageView *_frontLayerView;
-    __weak IBOutlet UILabel *_overlayTitle;
-    __weak IBOutlet UIScrollView *_scrollView;
-    __weak IBOutlet UIPageControl *_pageControl;
-    
     CGSize _windowSize;
     ScrollingState _currentState;
     
     NSArray *_pages;
-    int _currentPageIndex;
-    
-    BOOL _autoScrollEnabled;
-    BOOL _autoScrollLooping;
-    CGFloat _autoScrollDurationOnPage;
-    
-    ICETutorialLabelStyle *_commonPageSubTitleStyle;
-    ICETutorialLabelStyle *_commonPageDescriptionStyle;
-    
+    NSInteger _currentPageIndex;
+        
     ButtonBlock _button1Block;
     ButtonBlock _button2Block;
 }
@@ -59,16 +46,10 @@ typedef void (^ButtonBlock)(UIButton *button);
 @property (nonatomic, retain) ICETutorialLabelStyle *commonPageDescriptionStyle;
 
 // Inits.
-- (id)initWithNibName:(NSString *)nibNameOrNil
-               bundle:(NSBundle *)nibBundleOrNil;
-- (id)initWithNibName:(NSString *)nibNameOrNil
-               bundle:(NSBundle *)nibBundleOrNil
-             andPages:(NSArray *)pages;
-- (id)initWithNibName:(NSString *)nibNameOrNil
-               bundle:(NSBundle *)nibBundleOrNil
-                pages:(NSArray *)pages
-         button1Block:(ButtonBlock)block1
-         button2Block:(ButtonBlock)block2;
+- (instancetype)initWithPages:(NSArray *)pages;
+- (instancetype)initWithPages:(NSArray *)pages
+                 button1Block:(ButtonBlock)block1
+                 button2Block:(ButtonBlock)block2;
 
 // Actions.
 - (void)setButton1Block:(ButtonBlock)block;

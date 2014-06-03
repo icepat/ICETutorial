@@ -10,8 +10,6 @@
 		0C6833CE1747B7B8004F9123 /* ICETutorialController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6833CD1747B7B8004F9123 /* ICETutorialController.m */; };
 		0C6833D11747B831004F9123 /* ICETutorialPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6833D01747B831004F9123 /* ICETutorialPage.m */; };
 		80A29020171156F6004EA534 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 80A28FF6171156F6004EA534 /* AppDelegate.m */; };
-		80A29027171156F6004EA534 /* ICETutorialController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 80A28FFF171156F6004EA534 /* ICETutorialController_iPad.xib */; };
-		80A29028171156F6004EA534 /* ICETutorialController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 80A29001171156F6004EA534 /* ICETutorialController_iPhone.xib */; };
 		80A29041171156F6004EA534 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 80A2901B171156F6004EA534 /* main.m */; };
 		CD6955F217C9120E0003ECA5 /* background-gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = CD6955E617C9120E0003ECA5 /* background-gradient.png */; };
 		CD6955F317C9120E0003ECA5 /* background-gradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CD6955E717C9120E0003ECA5 /* background-gradient@2x.png */; };
@@ -39,8 +37,6 @@
 		80A28FF5171156F6004EA534 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		80A28FF6171156F6004EA534 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		80A28FFE171156F6004EA534 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		80A29000171156F6004EA534 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ICETutorialController_iPad.xib; sourceTree = "<group>"; };
-		80A29002171156F6004EA534 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ICETutorialController_iPhone.xib; sourceTree = "<group>"; };
 		80A2901B171156F6004EA534 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		80A2907F171157B9004EA534 /* ICETutorial-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ICETutorial-Info.plist"; sourceTree = "<group>"; };
 		80A29080171157B9004EA534 /* ICETutorial-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ICETutorial-Prefix.pch"; sourceTree = "<group>"; };
@@ -96,8 +92,6 @@
 				80A28FF5171156F6004EA534 /* AppDelegate.h */,
 				80A28FF6171156F6004EA534 /* AppDelegate.m */,
 				80A28FFD171156F6004EA534 /* InfoPlist.strings */,
-				80A28FFF171156F6004EA534 /* ICETutorialController_iPad.xib */,
-				80A29001171156F6004EA534 /* ICETutorialController_iPhone.xib */,
 				80A2901B171156F6004EA534 /* main.m */,
 			);
 			path = ICETutorial;
@@ -203,8 +197,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CDAD68DE17C4CAB600737949 /* InfoPlist.strings in Resources */,
-				80A29027171156F6004EA534 /* ICETutorialController_iPad.xib in Resources */,
-				80A29028171156F6004EA534 /* ICETutorialController_iPhone.xib in Resources */,
 				CD6955F217C9120E0003ECA5 /* background-gradient.png in Resources */,
 				CD6955F317C9120E0003ECA5 /* background-gradient@2x.png in Resources */,
 				CD6955F417C9120E0003ECA5 /* button-background.png in Resources */,
@@ -243,22 +235,6 @@
 				80A28FFE171156F6004EA534 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		80A28FFF171156F6004EA534 /* ICETutorialController_iPad.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				80A29000171156F6004EA534 /* en */,
-			);
-			name = ICETutorialController_iPad.xib;
-			sourceTree = "<group>";
-		};
-		80A29001171156F6004EA534 /* ICETutorialController_iPhone.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				80A29002171156F6004EA534 /* en */,
-			);
-			name = ICETutorialController_iPhone.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
