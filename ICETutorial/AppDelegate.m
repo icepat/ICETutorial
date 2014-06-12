@@ -7,69 +7,57 @@
 //
 
 #import "AppDelegate.h"
-#import "ICETutorialController.h"
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     // Init the pages texts, and pictures.
-    ICETutorialPage *layer1 = [[ICETutorialPage alloc] initWithSubTitle:@"Picture 1"
-                                                            description:@"Champs-Elysées by night"
-                                                            pictureName:@"tutorial_background_00@2x.jpg"];
-    ICETutorialPage *layer2 = [[ICETutorialPage alloc] initWithSubTitle:@"Picture 2"
-                                                            description:@"The Eiffel Tower with\n cloudy weather"
-                                                            pictureName:@"tutorial_background_01@2x.jpg"];
-    ICETutorialPage *layer3 = [[ICETutorialPage alloc] initWithSubTitle:@"Picture 3"
-                                                            description:@"An other famous street of Paris"
-                                                            pictureName:@"tutorial_background_02@2x.jpg"];
-    ICETutorialPage *layer4 = [[ICETutorialPage alloc] initWithSubTitle:@"Picture 4"
-                                                            description:@"The Eiffel Tower with a better weather"
-                                                            pictureName:@"tutorial_background_03@2x.jpg"];
-    ICETutorialPage *layer5 = [[ICETutorialPage alloc] initWithSubTitle:@"Picture 5"
-                                                            description:@"The Louvre's Museum Pyramide"
-                                                            pictureName:@"tutorial_background_04@2x.jpg"];
-//
-//    // Set the common style for SubTitles and Description (can be overrided on each page).
-    ICETutorialLabelStyle *subStyle = [[ICETutorialLabelStyle alloc] init];
-    [subStyle setFont:TUTORIAL_SUB_TITLE_FONT];
-    [subStyle setTextColor:TUTORIAL_LABEL_TEXT_COLOR];
-    [subStyle setLinesNumber:TUTORIAL_SUB_TITLE_LINES_NUMBER];
-    [subStyle setOffset:TUTORIAL_SUB_TITLE_OFFSET];
+    ICETutorialPage *layer1 = [[ICETutorialPage alloc] initWithTitle:@"Picture 1"
+                                                            subTitle:@"Champs-Elysées by night"
+                                                         pictureName:@"tutorial_background_00@2x.jpg"
+                                                            duration:3.0];
+    ICETutorialPage *layer2 = [[ICETutorialPage alloc] initWithTitle:@"Picture 2"
+                                                            subTitle:@"The Eiffel Tower with\n cloudy weather"
+                                                         pictureName:@"tutorial_background_01@2x.jpg"
+                                                            duration:3.0];
+    ICETutorialPage *layer3 = [[ICETutorialPage alloc] initWithTitle:@"Picture 3"
+                                                            subTitle:@"An other famous street of Paris"
+                                                         pictureName:@"tutorial_background_02@2x.jpg"
+                                                            duration:3.0];
+    ICETutorialPage *layer4 = [[ICETutorialPage alloc] initWithTitle:@"Picture 4"
+                                                            subTitle:@"The Eiffel Tower with a better weather"
+                                                         pictureName:@"tutorial_background_03@2x.jpg"
+                                                            duration:3.0];
+    ICETutorialPage *layer5 = [[ICETutorialPage alloc] initWithTitle:@"Picture 5"
+                                                            subTitle:@"The Louvre's Museum Pyramide"
+                                                         pictureName:@"tutorial_background_04@2x.jpg"
+                                                            duration:3.0];
+
+    // Set the common style for SubTitles and Description (can be overrided on each page).
+    ICETutorialLabelStyle *titleStyle = [[ICETutorialLabelStyle alloc] init];
+    [titleStyle setFont:TUTORIAL_SUB_TITLE_FONT];
+    [titleStyle setTextColor:TUTORIAL_LABEL_TEXT_COLOR];
+    [titleStyle setLinesNumber:TUTORIAL_SUB_TITLE_LINES_NUMBER];
+    [titleStyle setOffset:TUTORIAL_SUB_TITLE_OFFSET];
     
-    ICETutorialLabelStyle *descStyle = [[ICETutorialLabelStyle alloc] init];
-    [descStyle setFont:TUTORIAL_DESC_FONT];
-    [descStyle setTextColor:TUTORIAL_LABEL_TEXT_COLOR];
-    [descStyle setLinesNumber:TUTORIAL_DESC_LINES_NUMBER];
-    [descStyle setOffset:TUTORIAL_DESC_OFFSET];
+    ICETutorialLabelStyle *subStyle = [[ICETutorialLabelStyle alloc] init];
+    [subStyle setFont:TUTORIAL_DESC_FONT];
+    [subStyle setTextColor:TUTORIAL_LABEL_TEXT_COLOR];
+    [subStyle setLinesNumber:TUTORIAL_DESC_LINES_NUMBER];
+    [subStyle setOffset:TUTORIAL_DESC_OFFSET];
 
     // Load into an array.
     NSArray *tutorialLayers = @[layer1,layer2,layer3,layer4,layer5];
     
-    
     // Override point for customization after application launch.
-    self.viewController = [[ICETutorialController alloc] initWithPages:tutorialLayers];
-//    [self.viewController setPages:tutorialLayers];
-    
-    // Set the common styles, and start scrolling (auto scroll, and looping enabled by default)
-    [self.viewController setCommonPageSubTitleStyle:subStyle];
-    [self.viewController setCommonPageDescriptionStyle:descStyle];
+    self.viewController = [[ICETutorialController alloc] initWithPages:tutorialLayers
+                                                              delegate:self];
 
-    // Set button 1 action.
-    [self.viewController setButton1Block:^(UIButton *button){
-        NSLog(@"Button 1 pressed.");
-    }];
-    
-    // Set button 2 action, stop the scrolling.    
-    __unsafe_unretained typeof(self) weakSelf = self;
-    [self.viewController setButton2Block:^(UIButton *button){
-        NSLog(@"Button 2 pressed.");
-        NSLog(@"Auto-scrolling stopped.");
-        
-        [weakSelf.viewController stopScrolling];
-    }];
+    // Set the common styles, and start scrolling (auto scroll, and looping enabled by default)
+    [self.viewController setCommonPageTitleStyle:titleStyle];
+    [self.viewController setCommonPageSubTitleStyle:subStyle];
     
     // Run it.
     [self.viewController startScrolling];
@@ -77,6 +65,26 @@
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     return YES;
+}
+
+#pragma mark - ICETutorialController delegate
+- (void)tutorialController:(ICETutorialController *)tutorialController scrollingFromPageIndex:(NSUInteger)fromIndex toPageIndex:(NSUInteger)toIndex {
+    NSLog(@"Scrolling from %lu to %lu", fromIndex, toIndex);
+}
+
+- (void)tutorialControllerDidReachLastPage:(ICETutorialController *)tutorialController {
+    NSLog(@"Tutorial reached the last page.");
+}
+
+- (void)tutorialController:(ICETutorialController *)tutorialController didClickOnLeftButton:(UIButton *)sender {
+    NSLog(@"Button 1 pressed.");
+}
+
+- (void)tutorialController:(ICETutorialController *)tutorialController didClickOnRightButton:(UIButton *)sender {
+    NSLog(@"Button 2 pressed.");
+    NSLog(@"Auto-scrolling stopped.");
+    
+    [self.viewController stopScrolling];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

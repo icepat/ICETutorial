@@ -25,17 +25,19 @@
 
 @interface ICETutorialPage : NSObject
 
+@property (nonatomic, retain) ICETutorialLabelStyle *title;
 @property (nonatomic, retain) ICETutorialLabelStyle *subTitle;
-@property (nonatomic, retain) ICETutorialLabelStyle *description;
 @property (nonatomic, retain) NSString *pictureName;
+@property (nonatomic, assign) NSTimeInterval duration;
 
 // Init.
-- (id)initWithSubTitle:(NSString *)subTitle
-           description:(NSString *)description
-           pictureName:(NSString *)pictureName;
+- (id)initWithTitle:(NSString *)title
+           subTitle:(NSString *)subTitle
+        pictureName:(NSString *)pictureName
+           duration:(NSTimeInterval)duration;
 
+- (void)setTitleStyle:(ICETutorialLabelStyle *)style;
 - (void)setSubTitleStyle:(ICETutorialLabelStyle *)style;
-- (void)setDescription:(ICETutorialLabelStyle *)style;
 
 @end
 

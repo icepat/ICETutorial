@@ -10,7 +10,7 @@
 #import "ICETutorialPage.h"
 
 #define TUTORIAL_LABEL_TEXT_COLOR               [UIColor whiteColor]
-#define TUTORIAL_LABEL_HEIGHT                   34
+#define TUTORIAL_LABEL_HEIGHT                   45
 #define TUTORIAL_SUB_TITLE_FONT                 [UIFont fontWithName:@"Helvetica-Bold" size:17.0f]
 #define TUTORIAL_SUB_TITLE_LINES_NUMBER         1
 #define TUTORIAL_SUB_TITLE_OFFSET               180
@@ -28,32 +28,19 @@ typedef NS_OPTIONS(NSUInteger, ScrollingState) {
 
 typedef void (^ButtonBlock)(UIButton *button);
 
-@interface ICETutorialController : UIViewController <UIScrollViewDelegate> {
-    CGSize _windowSize;
-    ScrollingState _currentState;
-    
-    NSArray *_pages;
-    NSInteger _currentPageIndex;
-        
-    ButtonBlock _button1Block;
-    ButtonBlock _button2Block;
-}
+@protocol ICETutorialControllerDelegate;
+@interface ICETutorialController : UIViewController <UIScrollViewDelegate>
 
 @property (nonatomic, assign) BOOL autoScrollEnabled;
-@property (nonatomic, assign) BOOL autoScrollLooping;
 @property (nonatomic, assign) CGFloat autoScrollDurationOnPage;
+@property (nonatomic, retain) ICETutorialLabelStyle *commonPageTitleStyle;
 @property (nonatomic, retain) ICETutorialLabelStyle *commonPageSubTitleStyle;
-@property (nonatomic, retain) ICETutorialLabelStyle *commonPageDescriptionStyle;
+@property (nonatomic, weak) id<ICETutorialControllerDelegate> delegate;
 
 // Inits.
 - (instancetype)initWithPages:(NSArray *)pages;
 - (instancetype)initWithPages:(NSArray *)pages
-                 button1Block:(ButtonBlock)block1
-                 button2Block:(ButtonBlock)block2;
-
-// Actions.
-- (void)setButton1Block:(ButtonBlock)block;
-- (void)setButton2Block:(ButtonBlock)block;
+                     delegate:(id<ICETutorialControllerDelegate>)delegate;
 
 // Pages management.
 - (void)setPages:(NSArray*)pages;
@@ -66,4 +53,14 @@ typedef void (^ButtonBlock)(UIButton *button);
 // State.
 - (ScrollingState)getCurrentState;
 
+@end
+
+@protocol ICETutorialControllerDelegate <NSObject>
+
+@optional
+- (void)tutorialController:(ICETutorialController *)tutorialController scrollingFromPageIndex:(NSUInteger)fromIndex toPageIndex:(NSUInteger)toIndex;
+- (void)tutorialControllerDidReachLastPage:(ICETutorialController *)tutorialController;
+
+- (void)tutorialController:(ICETutorialController *)tutorialController didClickOnLeftButton:(UIButton *)sender;
+- (void)tutorialController:(ICETutorialController *)tutorialController didClickOnRightButton:(UIButton *)sender;
 @end

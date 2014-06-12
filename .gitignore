@@ -1,2 +1,16 @@
 
 .DS_Store
+
+*.xccheckout
+
+*.xccheckout
+
+*.xcscheme
+
+*.xcbkptlist
+
+*.xcsettings
+
+*.xcuserstate
+
+ICETutorial.xcodeproj/xcuserdata/patrick.trillsam.xcuserdatad/xcschemes/xcschememanagement.plist

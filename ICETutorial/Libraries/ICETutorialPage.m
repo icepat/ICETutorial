@@ -11,8 +11,7 @@
 @implementation ICETutorialLabelStyle
 
 // Init.
-- (id)initWithText:(NSString *)text
-{
+- (id)initWithText:(NSString *)text {
     self = [super init];
     if (self){
         _text = text;
@@ -22,8 +21,7 @@
 
 - (id)initWithText:(NSString *)text
               font:(UIFont *)font
-         textColor:(UIColor *)color
-{
+         textColor:(UIColor *)color {
     self = [self initWithText:text];
     if (self){
         _font = font;
@@ -37,26 +35,28 @@
 @implementation ICETutorialPage
 
 // Init.
-- (id)initWithSubTitle:(NSString *)subTitle
-           description:(NSString *)description
-           pictureName:(NSString *)pictureName{
+- (id)initWithTitle:(NSString *)title
+           subTitle:(NSString *)subTitle
+        pictureName:(NSString *)pictureName
+           duration:(NSTimeInterval)duration {
     self = [super init];
     if (self){
+        _title = [[ICETutorialLabelStyle alloc] initWithText:title];
         _subTitle = [[ICETutorialLabelStyle alloc] initWithText:subTitle];
-        _description = [[ICETutorialLabelStyle alloc] initWithText:description];
         _pictureName = pictureName;
+        _duration = duration;
     }
     return self;
 }
 
-- (void)setSubTitleStyle:(ICETutorialLabelStyle *)style{
-    [_subTitle setFont:style.font];
-    [_subTitle setTextColor:style.textColor];
+- (void)setTitleStyle:(ICETutorialLabelStyle *)style {
+    [self.title setFont:style.font];
+    [self.title setTextColor:style.textColor];
 }
 
-- (void)setDescription:(ICETutorialLabelStyle *)style{
-    [_description setFont:style.font];
-    [_description setTextColor:style.textColor];
+- (void)setSubTitleStyle:(ICETutorialLabelStyle *)style {
+    [self.subTitle setFont:style.font];
+    [self.subTitle setTextColor:style.textColor];
 }
 
 @end
