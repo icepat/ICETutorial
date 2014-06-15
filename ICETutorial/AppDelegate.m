@@ -69,7 +69,7 @@
 
 #pragma mark - ICETutorialController delegate
 - (void)tutorialController:(ICETutorialController *)tutorialController scrollingFromPageIndex:(NSUInteger)fromIndex toPageIndex:(NSUInteger)toIndex {
-    NSLog(@"Scrolling from %lu to %lu", fromIndex, toIndex);
+    NSLog(@"Scrolling from %lu to %lu", (unsigned long)fromIndex, (unsigned long)toIndex);
 }
 
 - (void)tutorialControllerDidReachLastPage:(ICETutorialController *)tutorialController {

@@ -11,6 +11,7 @@
 @interface ICETutorialController ()
 @property (nonatomic, strong, readonly) UIImageView *frontLayerView;
 @property (nonatomic, strong, readonly) UIImageView *backLayerView;
+@property (nonatomic, strong, readonly) UIImageView *gradientView;
 @property (nonatomic, strong, readonly) UIScrollView *scrollView;
 @property (nonatomic, strong, readonly) UILabel *overlayTitle;
 @property (nonatomic, strong, readonly) UIPageControl *pageControl;
@@ -35,6 +36,7 @@
         
         _frontLayerView = [[UIImageView alloc] init];
         _backLayerView = [[UIImageView alloc] init];
+        _gradientView = [[UIImageView alloc] init];
         _scrollView = [[UIScrollView alloc] init];
         
         _overlayTitle = [[UILabel alloc] init];
@@ -73,11 +75,10 @@
     [self.backLayerView setFrame:self.view.bounds];
     
     // Decoration.
-    UIImageView *gradientView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 368, 320, 200)];
-    [gradientView setImage:[UIImage imageNamed:@"background-gradient.png"]];
+    [self.gradientView setImage:[UIImage imageNamed:@"background-gradient.png"]];
     
     // Title.
-    [self.overlayTitle setFrame:CGRectMake(84, 116, 212, 50)];
+//    [self.overlayTitle setFrame:CGRectMake(84, 116, 212, 50)];
     [self.overlayTitle setTextColor:[UIColor whiteColor]];
     [self.overlayTitle setFont:[UIFont fontWithName:@"Helvetica-Bold" size:32.0]];
     
@@ -89,7 +90,7 @@
                                                 self.scrollView.contentSize.height)];
 
     // PageControl configuration.
-    [self.pageControl setFrame:CGRectMake(141, 453, 36, 32)];
+    [self.pageControl setFrame:CGRectMake(140, 453, 40, 32)];
     [self.pageControl setNumberOfPages:[self numberOfPages]];
     [self.pageControl setCurrentPage:0];
     [self.pageControl addTarget:self
@@ -97,8 +98,8 @@
                forControlEvents:UIControlEventValueChanged];
     
     // UIButtons.
-    [self.leftButton setFrame:CGRectMake(20, 494, 130, 36)];
-    [self.rightButton setFrame:CGRectMake(172, 494, 130, 36)];
+//    [self.leftButton setFrame:CGRectMake(20, 494, 130, 36)];
+//    [self.rightButton setFrame:CGRectMake(172, 494, 130, 36)];
     [self.leftButton setBackgroundColor:[UIColor darkGrayColor]];
     [self.rightButton setBackgroundColor:[UIColor darkGrayColor]];
     [self.leftButton setTitle:@"Button 1" forState:UIControlStateNormal];
@@ -113,7 +114,7 @@
     
     [self.view addSubview:self.frontLayerView];
     [self.view addSubview:self.backLayerView];
-    [self.view addSubview:gradientView];
+    [self.view addSubview:self.gradientView];
     [self.view addSubview:self.scrollView];
     [self.view addSubview:self.overlayTitle];
     [self.view addSubview:self.pageControl];
@@ -123,139 +124,48 @@
     [self addAllConstraints];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
 #pragma mark - Constraints management.
 - (void)addAllConstraints {
-    [self imageViewConstraints];
-    [self addSlugLineConstraints];
-    [self addDateLineConstraints];
-}
-
-// UIImageView constraints.
-- (void)imageViewConstraints {
-//	[self.frontLayerView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
-//	[self.backLayerView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
-//    
-//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.leftButton
-//                                                          attribute:NSLayoutAttributeLeading
-//                                                          relatedBy:NSLayoutRelationEqual
-//                                                             toItem:self.view
-//                                                          attribute:NSLayoutAttributeLeft
-//                                                         multiplier:1
-//                                                           constant:20]];
-//    
-//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.rightButton
-//                                                          attribute:NSLayoutAttributeLeft
-//                                                          relatedBy:NSLayoutRelationEqual
-//                                                             toItem:self.leftButton
-//                                                          attribute:NSLayoutAttributeRight
-//                                                         multiplier:1
-//                                                           constant:20]];
-//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.rightButton
-//                                                          attribute:NSLayoutAttributeRight
-//                                                          relatedBy:NSLayoutRelationEqual
-//                                                             toItem:self.view
-//                                                          attribute:NSLayoutAttributeRight
-//                                                         multiplier:1
-//                                                           constant:20]];
+    [self.frontLayerView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+	[self.backLayerView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
     
-    
-    
-//    [self.view addConstraints:[NSLayoutConstraint
-//                               constraintsWithVisualFormat:@"H:|-20-[_leftButton(130)]-20-[_rightButton(130)]-20-|"
-//                               options:0 metrics:nil
-//                               views:NSDictionaryOfVariableBindings(_leftButton, _rightButton)]];
-//    [self.view addConstraints:[NSLayoutConstraint
-//                               constraintsWithVisualFormat:@"V:|-20-[_leftButton(36)]-|"
-//                               options:0 metrics:nil
-//                               views:NSDictionaryOfVariableBindings(_leftButton, _rightButton)]];
-//    [self.view addConstraints:[NSLayoutConstraint
-//                               constraintsWithVisualFormat:@"V:|-[_rightButton(36)]-20-|"
-//                               options:0 metrics:nil
-//                               views:NSDictionaryOfVariableBindings(_leftButton, _rightButton)]];
-//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.leftButton
-//                                                     attribute:NSLayoutAttributeBottom
-//                                                     relatedBy:NSLayoutRelationEqual
-//                                                        toItem:self.view
-//                                                     attribute:NSLayoutAttributeBottom
-//                                                    multiplier:1
-//                                                      constant:20]];
-//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.leftButton
-//                                                          attribute:NSLayoutAttributeLeft
-//                                                          relatedBy:NSLayoutRelationEqual
-//                                                             toItem:self.view
-//                                                          attribute:NSLayoutAttributeLeft
-//                                                         multiplier:1
-//                                                           constant:20]];
-//    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.frontLayerView
-//                                                     attribute:NSLayoutAttributeLeft
-//                                                     relatedBy:NSLayoutRelationEqual
-//                                                        toItem:self
-//                                                     attribute:NSLayoutAttributeLeft
-//                                                    multiplier:1
-//                                                      constant:0]];
-//    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.frontLayerView
-//                                                     attribute:NSLayoutAttributeRight
-//                                                     relatedBy:NSLayoutRelationEqual
-//                                                        toItem:self
-//                                                     attribute:NSLayoutAttributeRight
-//                                                    multiplier:1
-//                                                      constant:0]];
-}
+    // Buttons.
+    [self.leftButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.rightButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraints:[NSLayoutConstraint
+                               constraintsWithVisualFormat:@"V:[_leftButton(==36)]-20-|"
+                               options:0 metrics:nil
+                               views:NSDictionaryOfVariableBindings(_leftButton)]];
+    [self.view addConstraints:[NSLayoutConstraint
+                               constraintsWithVisualFormat:@"V:[_rightButton(==36)]-20-|"
+                               options:0 metrics:nil
+                               views:NSDictionaryOfVariableBindings(_rightButton)]];
+    [self.view addConstraints:[NSLayoutConstraint
+                               constraintsWithVisualFormat:@"H:|-20-[_leftButton(==_rightButton)]-20-[_rightButton(>=130)]-20-|"
+                               options:0 metrics:nil
+                               views:NSDictionaryOfVariableBindings(_leftButton, _rightButton)]];
 
-// Slug line constraints.
-- (void)addSlugLineConstraints
-{
-//    [self addConstraint:[NSLayoutConstraint constraintWithItem:_itemSlugLine
-//                                                     attribute:NSLayoutAttributeTop
-//                                                     relatedBy:NSLayoutRelationEqual
-//                                                        toItem:_itemHeadLine
-//                                                     attribute:NSLayoutAttributeBottom
-//                                                    multiplier:1
-//                                                      constant:0]];
-//    [self addConstraint:[NSLayoutConstraint constraintWithItem:_itemSlugLine
-//                                                     attribute:NSLayoutAttributeLeft
-//                                                     relatedBy:NSLayoutRelationEqual
-//                                                        toItem:self
-//                                                     attribute:NSLayoutAttributeLeft
-//                                                    multiplier:1
-//                                                      constant:CELL_CONTENT_PADDING]];
-//    [self addConstraint:[NSLayoutConstraint constraintWithItem:_itemSlugLine
-//                                                     attribute:NSLayoutAttributeRight
-//                                                     relatedBy:NSLayoutRelationEqual
-//                                                        toItem:self
-//                                                     attribute:NSLayoutAttributeRight
-//                                                    multiplier:1
-//                                                      constant:-CELL_CONTENT_PADDING]];
-}
+    // PageControl.
+    [self.pageControl setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraints:[NSLayoutConstraint
+                               constraintsWithVisualFormat:@"V:[_pageControl(==32)]-60-|"
+                               options:0 metrics:nil
+                               views:NSDictionaryOfVariableBindings(_pageControl)]];
+    [self.view addConstraints:[NSLayoutConstraint
+                               constraintsWithVisualFormat:@"H:|-140-[_pageControl(==40)]"
+                               options:0 metrics:nil
+                               views:NSDictionaryOfVariableBindings(_pageControl)]];
 
-// Date line constraints.
-- (void)addDateLineConstraints
-{
-//    [self addConstraint:[NSLayoutConstraint constraintWithItem:_itemDateLine
-//                                                     attribute:NSLayoutAttributeTop
-//                                                     relatedBy:NSLayoutRelationEqual
-//                                                        toItem:_itemSlugLine
-//                                                     attribute:NSLayoutAttributeBottom
-//                                                    multiplier:1
-//                                                      constant:0]];
-//    [self addConstraint:[NSLayoutConstraint constraintWithItem:_itemDateLine
-//                                                     attribute:NSLayoutAttributeLeft
-//                                                     relatedBy:NSLayoutRelationEqual
-//                                                        toItem:self
-//                                                     attribute:NSLayoutAttributeLeft
-//                                                    multiplier:1
-//                                                      constant:CELL_CONTENT_PADDING]];
-//    [self addConstraint:[NSLayoutConstraint constraintWithItem:_itemDateLine
-//                                                     attribute:NSLayoutAttributeRight
-//                                                     relatedBy:NSLayoutRelationEqual
-//                                                        toItem:self
-//                                                     attribute:NSLayoutAttributeRight
-//                                                    multiplier:1
-//                                                      constant:-CELL_CONTENT_PADDING]];
+    // GradientView.
+    [self.gradientView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraints:[NSLayoutConstraint
+                               constraintsWithVisualFormat:@"V:[_gradientView(==200)]-0-|"
+                               options:0 metrics:nil
+                               views:NSDictionaryOfVariableBindings(_gradientView)]];
+    [self.view addConstraints:[NSLayoutConstraint
+                               constraintsWithVisualFormat:@"H:|-0-[_gradientView(==320)]-0-|"
+                               options:0 metrics:nil
+                               views:NSDictionaryOfVariableBindings(_gradientView)]];
 }
 
 #pragma mark - Actions
@@ -375,32 +285,29 @@
     for (ICETutorialPage *page in self.pages) {
         // SubTitles.
         if ([[[page title] text] length]) {
-            UILabel *subTitle = [self overlayLabelWithStyle:[page title]
-                                                commonStyle:self.commonPageTitleStyle
-                                                      index:index];
-            [self.scrollView addSubview:subTitle];
+            [self overlayLabelWithStyle:[page title]
+                            commonStyle:self.commonPageTitleStyle
+                                  index:index];
         }
         // Description.
         if ([[[page subTitle] text] length]) {
-            UILabel *description = [self overlayLabelWithStyle:[page subTitle]
-                                                   commonStyle:self.commonPageSubTitleStyle
-                                                         index:index];
-            [self.scrollView addSubview:description];
+            [self overlayLabelWithStyle:[page subTitle]
+                            commonStyle:self.commonPageSubTitleStyle
+                                  index:index];
         }
         
         index++;
     }
 }
 
-- (UILabel *)overlayLabelWithStyle:(ICETutorialLabelStyle *)style
-                       commonStyle:(ICETutorialLabelStyle *)commonStyle
-                             index:(NSUInteger)index {
+- (void)overlayLabelWithStyle:(ICETutorialLabelStyle *)style
+                  commonStyle:(ICETutorialLabelStyle *)commonStyle
+                        index:(NSUInteger)index {
     // SubTitles.
     UILabel *overlayLabel = [[UILabel alloc] initWithFrame:CGRectMake((index * self.view.frame.size.width),
                                                                       self.view.frame.size.height - [commonStyle offset],
                                                                       self.view.frame.size.width,
                                                                       TUTORIAL_LABEL_HEIGHT)];
-    [overlayLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     [overlayLabel setNumberOfLines:[commonStyle linesNumber]];
     [overlayLabel setBackgroundColor:[UIColor clearColor]];
     [overlayLabel setTextAlignment:NSTextAlignmentCenter];  
@@ -412,7 +319,7 @@
     [style textColor] ? [overlayLabel setTextColor:[style textColor]] :
                         [overlayLabel setTextColor:[commonStyle textColor]];
   
-    return overlayLabel;
+    [self.scrollView addSubview:overlayLabel];
 }
 
 #pragma mark - Layers management
