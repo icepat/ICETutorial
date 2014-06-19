@@ -34,30 +34,23 @@
                                                             subTitle:@"The Louvre's Museum Pyramide"
                                                          pictureName:@"tutorial_background_04@2x.jpg"
                                                             duration:3.0];
-
-    // Set the common style for SubTitles and Description (can be overrided on each page).
-    ICETutorialLabelStyle *titleStyle = [[ICETutorialLabelStyle alloc] init];
-    [titleStyle setFont:TUTORIAL_SUB_TITLE_FONT];
-    [titleStyle setTextColor:TUTORIAL_LABEL_TEXT_COLOR];
-    [titleStyle setLinesNumber:TUTORIAL_SUB_TITLE_LINES_NUMBER];
-    [titleStyle setOffset:TUTORIAL_SUB_TITLE_OFFSET];
-    
-    ICETutorialLabelStyle *subStyle = [[ICETutorialLabelStyle alloc] init];
-    [subStyle setFont:TUTORIAL_DESC_FONT];
-    [subStyle setTextColor:TUTORIAL_LABEL_TEXT_COLOR];
-    [subStyle setLinesNumber:TUTORIAL_DESC_LINES_NUMBER];
-    [subStyle setOffset:TUTORIAL_DESC_OFFSET];
-
-    // Load into an array.
     NSArray *tutorialLayers = @[layer1,layer2,layer3,layer4,layer5];
+
+    // Set the common style for the title.
+    ICETutorialLabelStyle *titleStyle = [[ICETutorialLabelStyle alloc] init];
+    [titleStyle setFont:[UIFont fontWithName:@"Helvetica-Bold" size:17.0f]];
+    [titleStyle setTextColor:[UIColor whiteColor]];
+    [titleStyle setLinesNumber:1];
+    [titleStyle setOffset:180];
+    [[ICETutorialStyle sharedInstance] setTitleStyle:titleStyle];
     
-    // Override point for customization after application launch.
+    // Set the subTitles style with few properties and let the others by default.
+    [[ICETutorialStyle sharedInstance] setSubTitleColor:[UIColor whiteColor]];
+    [[ICETutorialStyle sharedInstance] setSubTitleOffset:150];
+    
+    // Init tutorial.
     self.viewController = [[ICETutorialController alloc] initWithPages:tutorialLayers
                                                               delegate:self];
-
-    // Set the common styles, and start scrolling (auto scroll, and looping enabled by default)
-    [self.viewController setCommonPageTitleStyle:titleStyle];
-    [self.viewController setCommonPageSubTitleStyle:subStyle];
     
     // Run it.
     [self.viewController startScrolling];
@@ -69,7 +62,7 @@
 
 #pragma mark - ICETutorialController delegate
 - (void)tutorialController:(ICETutorialController *)tutorialController scrollingFromPageIndex:(NSUInteger)fromIndex toPageIndex:(NSUInteger)toIndex {
-    NSLog(@"Scrolling from %lu to %lu", (unsigned long)fromIndex, (unsigned long)toIndex);
+    NSLog(@"Scrolling from page %lu to page %lu.", (unsigned long)fromIndex, (unsigned long)toIndex);
 }
 
 - (void)tutorialControllerDidReachLastPage:(ICETutorialController *)tutorialController {

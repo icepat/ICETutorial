@@ -17,10 +17,11 @@
 @property (nonatomic, assign) NSUInteger offset;
 
 // Init.
-- (id)initWithText:(NSString *)text;
-- (id)initWithText:(NSString *)text
-              font:(UIFont *)font
-         textColor:(UIColor *)color;
+- (instancetype)initWithText:(NSString *)text;
+- (instancetype)initWithFont:(UIFont *)font
+                   textColor:(UIColor *)color
+                 linesNumber:(NSUInteger)linesNumber
+                      offset:(NSUInteger)offset;
 @end
 
 @interface ICETutorialPage : NSObject
@@ -31,10 +32,10 @@
 @property (nonatomic, assign) NSTimeInterval duration;
 
 // Init.
-- (id)initWithTitle:(NSString *)title
-           subTitle:(NSString *)subTitle
-        pictureName:(NSString *)pictureName
-           duration:(NSTimeInterval)duration;
+- (instancetype)initWithTitle:(NSString *)title
+                     subTitle:(NSString *)subTitle
+                  pictureName:(NSString *)pictureName
+                     duration:(NSTimeInterval)duration;
 
 - (void)setTitleStyle:(ICETutorialLabelStyle *)style;
 - (void)setSubTitleStyle:(ICETutorialLabelStyle *)style;

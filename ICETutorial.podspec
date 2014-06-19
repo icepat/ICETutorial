@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.homepage = 'http://icepat.github.io/ICETutorial'
   s.license = {
     :type => 'MIT',
-    :file => 'LICENSE'
+    :file => 'README.md'
   }
   s.author = 'Patrick Trillsam'
   s.source = {
@@ -17,5 +17,5 @@ Pod::Spec.new do |s|
   s.public_header_files = 'ICETutorial/Libraries'
   s.frameworks = 'UIKit', 'CoreGraphics'
   s.requires_arc = true
-  s.resources = ['Resources/*.png', 'ICETutorial/en.lproj/*.xib']
+  s.resources = ['Resources/*.png']
 end

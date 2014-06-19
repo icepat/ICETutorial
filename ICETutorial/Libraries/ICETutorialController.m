@@ -31,7 +31,6 @@
     self = [self init];
     if (self) {
         _autoScrollEnabled = YES;
-        _autoScrollDurationOnPage = TUTORIAL_DEFAULT_DURATION_ON_PAGE;
         _pages = pages;
         
         _frontLayerView = [[UIImageView alloc] init];
@@ -77,11 +76,6 @@
     // Decoration.
     [self.gradientView setImage:[UIImage imageNamed:@"background-gradient.png"]];
     
-    // Title.
-//    [self.overlayTitle setFrame:CGRectMake(84, 116, 212, 50)];
-    [self.overlayTitle setTextColor:[UIColor whiteColor]];
-    [self.overlayTitle setFont:[UIFont fontWithName:@"Helvetica-Bold" size:32.0]];
-    
     // ScrollView configuration.
     [self.scrollView setFrame:self.view.bounds];
     [self.scrollView setDelegate:self];
@@ -89,8 +83,12 @@
     [self.scrollView setContentSize:CGSizeMake([self numberOfPages] * self.view.frame.size.width,
                                                 self.scrollView.contentSize.height)];
 
+    // Title.
+    [self.overlayTitle setTextColor:[UIColor whiteColor]];
+    [self.overlayTitle setFont:[UIFont fontWithName:@"Helvetica-Bold" size:32.0]];
+    [self.overlayTitle setTextAlignment:NSTextAlignmentCenter];
+
     // PageControl configuration.
-    [self.pageControl setFrame:CGRectMake(140, 453, 40, 32)];
     [self.pageControl setNumberOfPages:[self numberOfPages]];
     [self.pageControl setCurrentPage:0];
     [self.pageControl addTarget:self
@@ -98,8 +96,6 @@
                forControlEvents:UIControlEventValueChanged];
     
     // UIButtons.
-//    [self.leftButton setFrame:CGRectMake(20, 494, 130, 36)];
-//    [self.rightButton setFrame:CGRectMake(172, 494, 130, 36)];
     [self.leftButton setBackgroundColor:[UIColor darkGrayColor]];
     [self.rightButton setBackgroundColor:[UIColor darkGrayColor]];
     [self.leftButton setTitle:@"Button 1" forState:UIControlStateNormal];
@@ -111,7 +107,6 @@
                          action:@selector(didClickOnButton2:)
                forControlEvents:UIControlEventTouchUpInside];
 
-    
     [self.view addSubview:self.frontLayerView];
     [self.view addSubview:self.backLayerView];
     [self.view addSubview:self.gradientView];
@@ -129,43 +124,38 @@
     [self.frontLayerView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
 	[self.backLayerView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
     
+    NSDictionary *views = NSDictionaryOfVariableBindings(_overlayTitle, _leftButton, _rightButton, _pageControl, _gradientView);
+    NSMutableArray *constraints = [NSMutableArray array];
+    
+    // Overlay title.
+    [self.overlayTitle setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [constraints addObject:@"V:|-116-[_overlayTitle(==50)]"];
+    [constraints addObject:@"H:|-54-[_overlayTitle(==212)]-|"];
+    
     // Buttons.
     [self.leftButton setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.rightButton setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.view addConstraints:[NSLayoutConstraint
-                               constraintsWithVisualFormat:@"V:[_leftButton(==36)]-20-|"
-                               options:0 metrics:nil
-                               views:NSDictionaryOfVariableBindings(_leftButton)]];
-    [self.view addConstraints:[NSLayoutConstraint
-                               constraintsWithVisualFormat:@"V:[_rightButton(==36)]-20-|"
-                               options:0 metrics:nil
-                               views:NSDictionaryOfVariableBindings(_rightButton)]];
-    [self.view addConstraints:[NSLayoutConstraint
-                               constraintsWithVisualFormat:@"H:|-20-[_leftButton(==_rightButton)]-20-[_rightButton(>=130)]-20-|"
-                               options:0 metrics:nil
-                               views:NSDictionaryOfVariableBindings(_leftButton, _rightButton)]];
+    [constraints addObject:@"V:[_leftButton(==36)]-20-|"];
+    [constraints addObject:@"V:[_rightButton(==36)]-20-|"];
+    [constraints addObject:@"H:|-20-[_leftButton(==_rightButton)]-20-[_rightButton(>=130)]-20-|"];
 
     // PageControl.
     [self.pageControl setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.view addConstraints:[NSLayoutConstraint
-                               constraintsWithVisualFormat:@"V:[_pageControl(==32)]-60-|"
-                               options:0 metrics:nil
-                               views:NSDictionaryOfVariableBindings(_pageControl)]];
-    [self.view addConstraints:[NSLayoutConstraint
-                               constraintsWithVisualFormat:@"H:|-140-[_pageControl(==40)]"
-                               options:0 metrics:nil
-                               views:NSDictionaryOfVariableBindings(_pageControl)]];
+    [constraints addObject:@"V:[_pageControl(==32)]-60-|"];
+    [constraints addObject:@"H:|-140-[_pageControl(==40)]"];
 
     // GradientView.
     [self.gradientView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.view addConstraints:[NSLayoutConstraint
-                               constraintsWithVisualFormat:@"V:[_gradientView(==200)]-0-|"
-                               options:0 metrics:nil
-                               views:NSDictionaryOfVariableBindings(_gradientView)]];
-    [self.view addConstraints:[NSLayoutConstraint
-                               constraintsWithVisualFormat:@"H:|-0-[_gradientView(==320)]-0-|"
-                               options:0 metrics:nil
-                               views:NSDictionaryOfVariableBindings(_gradientView)]];
+    [constraints addObject:@"V:[_gradientView(==200)]-0-|"];
+    [constraints addObject:@"H:|-0-[_gradientView(==320)]-0-|"];
+    
+    // Set constraints.
+    for (NSString *string in constraints) {
+        [self.view addConstraints:[NSLayoutConstraint
+                                   constraintsWithVisualFormat:string
+                                   options:0 metrics:nil
+                                   views:views]];
+    }
 }
 
 #pragma mark - Actions
@@ -286,13 +276,13 @@
         // SubTitles.
         if ([[[page title] text] length]) {
             [self overlayLabelWithStyle:[page title]
-                            commonStyle:self.commonPageTitleStyle
+                            commonStyle:[[ICETutorialStyle sharedInstance] titleStyle]
                                   index:index];
         }
         // Description.
         if ([[[page subTitle] text] length]) {
             [self overlayLabelWithStyle:[page subTitle]
-                            commonStyle:self.commonPageSubTitleStyle
+                            commonStyle:[[ICETutorialStyle sharedInstance] subTitleStyle]
                                   index:index];
         }
         

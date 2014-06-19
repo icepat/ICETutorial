@@ -11,7 +11,7 @@
 @implementation ICETutorialLabelStyle
 
 // Init.
-- (id)initWithText:(NSString *)text {
+- (instancetype)initWithText:(NSString *)text {
     self = [super init];
     if (self){
         _text = text;
@@ -19,13 +19,16 @@
     return self;
 }
 
-- (id)initWithText:(NSString *)text
-              font:(UIFont *)font
-         textColor:(UIColor *)color {
-    self = [self initWithText:text];
+- (instancetype)initWithFont:(UIFont *)font
+                   textColor:(UIColor *)color
+                 linesNumber:(NSUInteger)linesNumber
+                      offset:(NSUInteger)offset {
+    self = [self init];
     if (self){
         _font = font;
         _textColor = color;
+        _linesNumber = linesNumber;
+        _offset = offset;
     }
     return self;
 }
@@ -35,10 +38,10 @@
 @implementation ICETutorialPage
 
 // Init.
-- (id)initWithTitle:(NSString *)title
-           subTitle:(NSString *)subTitle
-        pictureName:(NSString *)pictureName
-           duration:(NSTimeInterval)duration {
+- (instancetype)initWithTitle:(NSString *)title
+                     subTitle:(NSString *)subTitle
+                  pictureName:(NSString *)pictureName
+                     duration:(NSTimeInterval)duration {
     self = [super init];
     if (self){
         _title = [[ICETutorialLabelStyle alloc] initWithText:title];

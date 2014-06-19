@@ -11,6 +11,7 @@
 		0C6833D11747B831004F9123 /* ICETutorialPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6833D01747B831004F9123 /* ICETutorialPage.m */; };
 		80A29020171156F6004EA534 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 80A28FF6171156F6004EA534 /* AppDelegate.m */; };
 		80A29041171156F6004EA534 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 80A2901B171156F6004EA534 /* main.m */; };
+		CD29BF131952C7B6005A5104 /* ICETutorialStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = CD29BF121952C7B6005A5104 /* ICETutorialStyle.m */; };
 		CD6955F217C9120E0003ECA5 /* background-gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = CD6955E617C9120E0003ECA5 /* background-gradient.png */; };
 		CD6955F317C9120E0003ECA5 /* background-gradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CD6955E717C9120E0003ECA5 /* background-gradient@2x.png */; };
 		CD6955F417C9120E0003ECA5 /* button-background.png in Resources */ = {isa = PBXBuildFile; fileRef = CD6955E817C9120E0003ECA5 /* button-background.png */; };
@@ -40,6 +41,8 @@
 		80A2901B171156F6004EA534 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		80A2907F171157B9004EA534 /* ICETutorial-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ICETutorial-Info.plist"; sourceTree = "<group>"; };
 		80A29080171157B9004EA534 /* ICETutorial-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ICETutorial-Prefix.pch"; sourceTree = "<group>"; };
+		CD29BF111952C7B6005A5104 /* ICETutorialStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICETutorialStyle.h; sourceTree = "<group>"; };
+		CD29BF121952C7B6005A5104 /* ICETutorialStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICETutorialStyle.m; sourceTree = "<group>"; };
 		CD6955E617C9120E0003ECA5 /* background-gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "background-gradient.png"; path = "Resources/background-gradient.png"; sourceTree = SOURCE_ROOT; };
 		CD6955E717C9120E0003ECA5 /* background-gradient@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "background-gradient@2x.png"; path = "Resources/background-gradient@2x.png"; sourceTree = SOURCE_ROOT; };
 		CD6955E817C9120E0003ECA5 /* button-background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "button-background.png"; path = "Resources/button-background.png"; sourceTree = SOURCE_ROOT; };
@@ -75,10 +78,12 @@
 		0C6833CB1747B7B8004F9123 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				0C6833CC1747B7B8004F9123 /* ICETutorialController.h */,
-				0C6833CD1747B7B8004F9123 /* ICETutorialController.m */,
 				0C6833CF1747B831004F9123 /* ICETutorialPage.h */,
 				0C6833D01747B831004F9123 /* ICETutorialPage.m */,
+				CD29BF111952C7B6005A5104 /* ICETutorialStyle.h */,
+				CD29BF121952C7B6005A5104 /* ICETutorialStyle.m */,
+				0C6833CC1747B7B8004F9123 /* ICETutorialController.h */,
+				0C6833CD1747B7B8004F9123 /* ICETutorialController.m */,
 			);
 			name = Libraries;
 			path = ICETutorial/Libraries;
@@ -222,6 +227,7 @@
 				80A29020171156F6004EA534 /* AppDelegate.m in Sources */,
 				80A29041171156F6004EA534 /* main.m in Sources */,
 				0C6833CE1747B7B8004F9123 /* ICETutorialController.m in Sources */,
+				CD29BF131952C7B6005A5104 /* ICETutorialStyle.m in Sources */,
 				0C6833D11747B831004F9123 /* ICETutorialPage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
