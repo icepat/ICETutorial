@@ -2,8 +2,8 @@
 //  ICETutorialPage.h
 //  ICETutorial
 //
-//  Created by Icepat Dev on 25/03/13.
-//  Copyright (c) 2013 Patrick Trillsam. All rights reserved.
+//  Created by Patrick Trillsam on 25/03/13.
+//  Copyright (c) 2014 https://github.com/icepat/ICETutorial. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

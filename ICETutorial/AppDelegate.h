@@ -1,9 +1,9 @@
 //
 //  AppDelegate.h
-//
+//  ICETutorial
 //
 //  Created by Patrick Trillsam on 25/03/13.
-//  Copyright (c) 2013 Patrick Trillsam. All rights reserved.
+//  Copyright (c) 2014 https://github.com/icepat/ICETutorial. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

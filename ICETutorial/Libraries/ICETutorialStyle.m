@@ -2,8 +2,8 @@
 //  ICETutorialStyle.m
 //  ICETutorial
 //
-//  Created by Patrick on 6/19/14.
-//  Copyright (c) 2014 Patrick Trillsam. All rights reserved.
+//  Created by Patrick Trillsam on 25/03/13.
+//  Copyright (c) 2014 https://github.com/icepat/ICETutorial. All rights reserved.
 //
 
 #import "ICETutorialStyle.h"
