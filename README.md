@@ -15,6 +15,14 @@ Here are the features :
 
 ![ICETutorial](https://github.com/icepat/ICETutorial/blob/master/screen_shot.jpg?raw=true)
 
+### Installation
+
+With [CocoaPods](http://cocoapods.org/), add this line to your Podfile.
+
+	pod 'ICETutorial', '~> 1.1.1'
+	
+Or add the files manually into your project.
+
 ### Setting-up the ICETutorial
 The code is commented, and I guess, easy to read/understand/modify.
 All the available settings for the scrolling are located in the header : ICETutorial.h :
