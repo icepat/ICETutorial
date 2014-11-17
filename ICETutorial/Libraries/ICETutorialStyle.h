@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 https://github.com/icepat/ICETutorial. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import "ICETutorialPage.h"
 
 @interface ICETutorialStyle : NSObject

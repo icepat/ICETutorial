@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 https://github.com/icepat/ICETutorial. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 #import "ICETutorialPage.h"
 #import "ICETutorialStyle.h"
 

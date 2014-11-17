@@ -308,6 +308,8 @@
 		CDC063AE17006175004E4142 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ICETutorial/ICETutorial-Prefix.pch";
 				INFOPLIST_FILE = "ICETutorial/ICETutorial-Info.plist";
@@ -319,6 +321,8 @@
 		CDC063AF17006175004E4142 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ICETutorial/ICETutorial-Prefix.pch";
 				INFOPLIST_FILE = "ICETutorial/ICETutorial-Info.plist";
