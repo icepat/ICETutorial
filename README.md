@@ -96,7 +96,16 @@ All the available settings for the scrolling are located in the header : ICETuto
 }
 ```
 
-Checkout the others projects available on my account [@Icepat](https://github.com/icepat/).
+Checkout the others projects available on my account [@Icepat](https://github.com/icepat/) :
+
+[ICETutorial](https://github.com/icepat/ICETutorial)
+
+A nice tutorial like the one introduced in the Path 3.X App
+
+[ICETutorialSwift](https://github.com/icepat/ICETutorialSwift)
+
+A nice tutorial like the one introduced in the Path 3.X App (in Swift) 
+
 
 Questions or ideas : patrick.trillsam@gmail.com.
 
@@ -105,7 +114,7 @@ Questions or ideas : patrick.trillsam@gmail.com.
 
 The MIT License
 
-Copyright (c) 2013 Patrick Trillsam - ICETutorial
+Copyright (c) 2015 Patrick Trillsam - ICETutorial
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
